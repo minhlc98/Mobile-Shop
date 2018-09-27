@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Activity.ThongTin"
+    android:background="@drawable/ban_do"
+    >
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#5050ed"
+        app:titleTextColor="#FFFFFF"
+        app:title="Thông Tin"
+        android:id="@+id/toolbarThongTin">
+    </android.support.v7.widget.Toolbar>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="10">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="30dp"
+            android:gravity="center"
+            android:background="#FFFFFF"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1">
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/location"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="708 Nguyễn Trãi, Phường 11, Quận 5, TP.HCM \nĐT: 01285428605"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="30dp"
+            android:gravity="center"
+            android:background="#FFFFFF"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1">
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/location"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="270B Lý Thường Kiệt, Phường 6, Quận Tân Bình, TPHCM \nĐT: 0938965143"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                />
+        </LinearLayout>
+
+        <fragment
+            android:layout_weight="8"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:name="com.google.android.gms.maps.MapFragment"
+            android:id="@+id/myMap"
+            />
+    </LinearLayout>
+
+</LinearLayout>

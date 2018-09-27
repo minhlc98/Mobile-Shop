@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.nhocs.demonavigation.Activity.TimKiem">
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:id="@+id/toolbarTimKiem"
+        android:background="#5050ed"
+        app:titleTextColor="#FFFFFF"
+        app:title=""
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="10"
+            android:gravity="right">
+            <EditText
+                android:layout_weight="10"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="Tìm kiếm"
+                android:textColorHint="#FFFFFF"
+                android:textColor="#FFFFFF"
+                android:textSize="18dp"
+                android:id="@+id/edtTimKiem"
+                android:inputType="text"
+                android:imeOptions="actionSearch"
+                android:layout_gravity="bottom"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="2dp"
+                />
+
+        </LinearLayout>
+
+    </android.support.v7.widget.Toolbar>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Không tìm thấy sản phẩm nào"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:id="@+id/txtNoRes"/>
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/lvSanPhamTimThay">
+        </ListView>
+    </FrameLayout>
+</LinearLayout>

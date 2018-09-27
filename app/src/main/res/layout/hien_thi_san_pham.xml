@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="#FFFFFF"
+        android:layout_margin="2dp">
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:id="@+id/imageSanPham"
+            android:layout_margin="10dp"/>
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:orientation="vertical">
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="Điện thoại SamSung Galaxy J7 Prime"
+               android:textStyle="bold"
+               android:textSize="18dp"
+               android:id="@+id/textViewTenSP"
+               android:textColor="#0000EE"
+               android:layout_margin="5dp"/>
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="Giá 4.990.000đ"
+               android:layout_margin="5dp"
+               android:textStyle="bold"
+               android:textSize="18dp"
+               android:textColor="#EE0000"
+               android:id="@+id/textViewGia"
+               />
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_margin="5dp"
+               android:text="Mô tả"
+               android:textSize="18dp"
+               android:maxLines="1"
+               android:id="@+id/textViewMoTa"
+               android:ellipsize="end"
+               />
+       </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

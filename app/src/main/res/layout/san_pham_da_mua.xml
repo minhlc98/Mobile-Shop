@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="10">
+    <TextView
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="STT"
+        android:textSize="17dp"
+        android:textStyle="bold"
+        android:id="@+id/txtSTT"
+        android:textAlignment="center"/>
+    <TextView
+        android:layout_weight="5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Điện thoại SamSung Galaxy J7 Prime"
+        android:textSize="17dp"
+        android:textStyle="bold"
+        android:id="@+id/txtTenSP_KiemTra"
+        android:textAlignment="center"
+        />
+    <TextView
+        android:layout_weight="1.5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="100"
+        android:textSize="17dp"
+        android:textStyle="bold"
+        android:id="@+id/txtSL"
+        android:textAlignment="center"/>
+    <TextView
+        android:layout_weight="2.5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="34.000.000"
+        android:textSize="17dp"
+        android:textStyle="bold"
+        android:id="@+id/txtGiaSP"
+        android:textAlignment="center"/>
+</LinearLayout>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.nhocs.demonavigation.Activity.GioHang"
+    android:weightSum="10">
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:id="@+id/toolbarGioHang"
+        android:background="#5050ed"
+        app:titleTextColor="#FFFFFF"
+        app:title="Giỏ hàng">
+    </android.support.v7.widget.Toolbar>
+    <LinearLayout
+        android:layout_weight="7.4"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        >
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Giỏ hàng của bạn đang trống"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:id="@+id/txtNoiDung"
+                />
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/recyclerViewGioHang"
+                android:divider="#9C9C9C"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:dividerHeight="2px">
+            </ListView>
+
+        </FrameLayout>
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="@drawable/divider_line"/>
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+        android:gravity="center_vertical"
+        android:weightSum="2"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp">
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Thành tiền:"
+            android:textSize="20dp"
+            />
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="0đ"
+            android:id="@+id/txtTongTien"
+            android:textColor="#f20"
+            android:gravity="end"
+            android:textSize="23dp"/>
+    </LinearLayout>
+    <Button
+        android:layout_weight="0.8"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text="Tiến hành đặt hàng"
+        android:id="@+id/btnThanhToan"
+        android:background="#F20"
+        android:textColor="#FFFFFF"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"/>
+    <Button
+        android:layout_weight="0.8"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text="Tiếp tục mua hàng"
+        android:id="@+id/btnTiepTuc"
+        android:background="#b8558436"
+        android:textColor="#0000CD"
+        android:layout_margin="10dp"/>
+
+</LinearLayout>
