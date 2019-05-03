@@ -3,8 +3,10 @@ package com.example.nhocs.demonavigation.Activity;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,25 +18,24 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
+import android.widget.Toast;
+import com.example.nhocs.demonavigation.Api.RetrofitClient;
+import com.example.nhocs.demonavigation.Model.ThongTinSanPham;
 import com.example.nhocs.demonavigation.R;
-import com.example.nhocs.demonavigation.Model.SanPham;
 import com.example.nhocs.demonavigation.Adapter.SanPhamAdapter;
 import com.example.nhocs.demonavigation.Ulti.NetworkManager;
-import com.example.nhocs.demonavigation.Ulti.Server;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class DanhSachSanPham extends AppCompatActivity {
 
-    ArrayList<SanPham> mang_san_pham;
+    ArrayList<ThongTinSanPham> mang_san_pham;
     ListView lvSanPham;
     SanPhamAdapter adapter;
     android.support.v7.widget.Toolbar toolbarSanPham;
@@ -48,6 +49,8 @@ public class DanhSachSanPham extends AppCompatActivity {
     MenuItem menuItem;
     LinearLayout layout_main,layout_no_connection;
     Button btnThuLai;
+    SwipeRefreshLayout swipeRefreshLayout;
+    boolean check_created;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,14 +61,47 @@ public class DanhSachSanPham extends AppCompatActivity {
         btnThuLai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (NetworkManager.check_Connection(getApplicationContext())) {
+                if (NetworkManager.isOnline(getApplicationContext())) {
                     layout_no_connection.setVisibility(View.INVISIBLE);
                     layout_main.setVisibility(View.VISIBLE);
                     loadAll();
+
                 }
             }
         });
-        if (NetworkManager.check_Connection(getApplicationContext())) {
+        swipeRefreshLayout=(SwipeRefreshLayout) findViewById(R.id.swipe);
+        swipeRefreshLayout.setDistanceToTriggerSync(200);
+        swipeRefreshLayout.setColorSchemeResources(R.color.blue,R.color.green,R.color.red,R.color.yellow);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(true);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            swipeRefreshLayout.setRefreshing(false);
+                            if (NetworkManager.isOnline(getApplicationContext())) {
+                                if (check_created) {
+                                    mang_san_pham.clear();
+                                    adapter.notifyDataSetChanged();
+                                    page = 1;
+                                    limit = false;
+                                }
+                                loadAll();
+                                layout_main.setVisibility(View.VISIBLE);
+                                layout_no_connection.setVisibility(View.INVISIBLE);
+                            }
+                            else{
+                                layout_main.setVisibility(View.INVISIBLE);
+                                layout_no_connection.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    }, 2000);
+                }
+
+
+        });
+        if (NetworkManager.isOnline(getApplicationContext())) {
             loadAll();
         }
         else{
@@ -74,12 +110,18 @@ public class DanhSachSanPham extends AppCompatActivity {
         }
     }
     public void loadAll(){
-        Bundle bundle = getIntent().getExtras();
-        ID = bundle.getInt("ID");
-        String title = bundle.getString("title");
-        Mapping();
-        actionBar(title);
-        Event();
+        if (!check_created) {
+            Bundle bundle = getIntent().getExtras();
+            ID = bundle.getInt("ID");
+            String title = bundle.getString("title");
+            Mapping();
+            actionBar(title);
+            Event();
+            check_created=true;
+        }
+        myThread thread=new myThread();
+        isLoading=true;
+        thread.start();
     }
     public void Event(){
         lvSanPham.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -90,6 +132,9 @@ public class DanhSachSanPham extends AppCompatActivity {
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (lvSanPham.getChildAt(0) != null) {
+                    swipeRefreshLayout.setEnabled(lvSanPham.getFirstVisiblePosition() == 0 && lvSanPham.getChildAt(0).getTop() == 0);
+                }
                 if (firstVisibleItem+visibleItemCount==totalItemCount && totalItemCount!=0 && !isLoading && !limit){
                     myThread thread= new myThread();
                     isLoading=true;
@@ -100,10 +145,13 @@ public class DanhSachSanPham extends AppCompatActivity {
         lvSanPham.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent=new Intent(DanhSachSanPham.this,ChiTietSanPham.class);
-                intent.putExtra("ThongTinSanPham",mang_san_pham.get(position));
-                intent.putExtra("from_search",false);
-                startActivity(intent);
+               if (position < mang_san_pham.size()) {
+                    Intent intent = new Intent(DanhSachSanPham.this, ChiTietSanPham.class);
+                    intent.putExtra("ThongTinSanPham", mang_san_pham.get(position));
+                    intent.putExtra("from_search", false);
+                    startActivity(intent);
+               }
+
             }
         });
     }
@@ -122,49 +170,38 @@ public class DanhSachSanPham extends AppCompatActivity {
         LayoutInflater inflater=getLayoutInflater();
         footerView=inflater.inflate(R.layout.progress_load,null);
         handler=new myHandler();
-        myThread thread=new myThread();
-        isLoading=true;
-        thread.start();
     }
-    public void load_San_Pham(String url) {
-        RequestQueue requestQueue= Volley.newRequestQueue(this);
-        final JsonArrayRequest jsonArrayRequest=new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
+    public void load_San_Pham() {
+        Map<String,String> para=new HashMap<>();
+        String ID_LoaiSP=String.valueOf(ID);
+        para.put("id",ID_LoaiSP);
+        para.put("page",String.valueOf(page));
+        RetrofitClient.getInstace().getService().getSanPham(para).enqueue(new Callback<ArrayList<ThongTinSanPham>>() {
             @Override
-            public void onResponse(JSONArray response) {
-                if (response.length() != 0) {
+            public void onResponse(Call<ArrayList<ThongTinSanPham>> call, Response<ArrayList<ThongTinSanPham>> response) {
+                if (response.isSuccessful()){
+                    ++page;//Cộng vào để lần sau load những sản phẩm tiếp theo
                     lvSanPham.removeFooterView(footerView);
-                    for (int i = 0; i < response.length(); ++i) {
-                        try {
-                            JSONObject jsonObject = response.getJSONObject(i);
-                            SanPham sp = new SanPham(jsonObject.getInt("ID"),
-                                    jsonObject.getInt("Gia"),
-                                    jsonObject.getString("TenSP"),
-                                    jsonObject.getString("Hinh"),
-                                    jsonObject.getString("MoTa"));
-                            mang_san_pham.add(sp);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                    if (response.body().size()>0) {
+                        for (int i = 0; i < response.body().size(); ++i) {
+                            mang_san_pham.add(response.body().get(i));
                         }
-
+                        isLoading=false;
+                        adapter.notifyDataSetChanged();
                     }
-                    isLoading=false;
-                    adapter.notifyDataSetChanged();
-                }
-                else{
-                    limit=true;
-                    lvSanPham.removeFooterView(footerView);
+                    else{
+                        limit=true;
+                    }
                 }
             }
 
-        }, new Response.ErrorListener() {
             @Override
-            public void onErrorResponse(VolleyError error) {
-                lvSanPham.removeFooterView(footerView);
+            public void onFailure(Call<ArrayList<ThongTinSanPham>> call, Throwable t) {
+                Toast.makeText(DanhSachSanPham.this, "Không có kết nối", Toast.LENGTH_LONG).show();
                 isLoading=false;
-                --page;
+                lvSanPham.removeFooterView(footerView);
             }
         });
-        requestQueue.add(jsonArrayRequest);
     }
     public void actionBar(String title) {
         setSupportActionBar(toolbarSanPham);
@@ -203,26 +240,23 @@ public class DanhSachSanPham extends AppCompatActivity {
         txt_count.setText(String.valueOf(MainActivity.soluong_giohang));
         return super.onCreateOptionsMenu(menu);
     }
-    public String formatURL(int page) {
-        return Server.url_getSanPham+String.format("?id=%d&page=%d",ID,page);
-    }
     public class myHandler extends Handler{
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what)
             {
                 case 1: lvSanPham.addFooterView(footerView);
-                load_San_Pham(formatURL(page++));
-                break;
+                        load_San_Pham();
+                        break;
             }
             super.handleMessage(msg);
         }
     }
     public class myThread extends Thread{
-        @Override
-        public void run() {
-            handler.sendEmptyMessage(1);
-            super.run();
-        }
+            @Override
+            public void run() {
+                handler.sendEmptyMessage(1);
+                super.run();
+            }
     }
 }

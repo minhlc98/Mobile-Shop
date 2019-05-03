@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Mobile Shop</string>
     <string name="map_api_key">AIzaSyA21_aj_NW6-q1NU_qOlnNPacuwPKNyXQ8</string>
+    <string name="speech_prompt">Thử nói gì đó</string>
+    <string name="speech_not_supported">Xin lỗi! Thiết bị của bạn không hỗ trợ tính năng này</string>
+    <string name="tap_on_mic">Nhấn vào để nói</string>
 </resources>

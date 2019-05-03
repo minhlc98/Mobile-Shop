@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_margin="5dp">
+        <pl.droidsonroids.gif.GifImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/new_icon_gif_8"
+            android:layout_alignParentRight="true"
+            />
+        <ImageView
+            android:layout_margin="10dp"
+            android:layout_centerInParent="true"
+            android:layout_alignParentTop="true"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:id="@+id/hinhSP"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/hinhSP"
+            android:gravity="center"
+            android:text="Tên sản phẩm"
+            android:lines="2"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:id="@+id/txtTenSP"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtTenSP"
+            android:text="Giá"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="#CD0000"
+            android:id="@+id/txtGia"
+            />
+        <RatingBar
+            android:layout_below="@id/txtGia"
+            android:id="@+id/rating_main"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:numStars="5"
+            android:rating="4"
+            android:layout_margin="5dp"
+            android:theme="@style/RatingBar"
+            style="?attr/ratingBarStyleSmall"
+            />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

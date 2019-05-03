@@ -11,32 +11,46 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:id="@+id/toolbarTimKiem"
-        android:background="#5050ed"
-        app:titleTextColor="#FFFFFF"
-        app:title=""
+        android:background="@color/white"
+        android:contentInsetLeft="0dp"
+        android:contentInsetStart="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        android:contentInsetRight="0dp"
+        android:contentInsetEnd="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetEnd="0dp"
+        app:contentInsetStartWithNavigation="0dp"
         >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
             android:weightSum="10"
-            android:gravity="right">
+            android:gravity="right"
+            >
             <EditText
-                android:layout_weight="10"
+                android:layout_weight="9"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:hint="Tìm kiếm"
-                android:textColorHint="#FFFFFF"
-                android:textColor="#FFFFFF"
+                android:textColorHint="#B1ABAB"
+                android:textColor="@color/black"
                 android:textSize="18dp"
                 android:id="@+id/edtTimKiem"
                 android:inputType="text"
                 android:imeOptions="actionSearch"
                 android:layout_gravity="bottom"
-                android:layout_marginRight="10dp"
                 android:layout_marginBottom="2dp"
+                app:backgroundTint="@color/white"
                 />
-
+            <ImageView
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/micro"
+                android:layout_gravity="center"
+                android:id="@+id/imgVoice"/>
         </LinearLayout>
 
     </android.support.v7.widget.Toolbar>
@@ -51,10 +65,27 @@
             android:textSize="20dp"
             android:textStyle="bold"
             android:id="@+id/txtNoRes"/>
-        <ListView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/lvSanPhamTimThay">
-        </ListView>
+            android:orientation="vertical"
+            android:id="@+id/layout_result">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#D3D3D3"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:padding="5dp"
+                android:id="@+id/tvNumofResult"/>
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/lvSanPhamTimThay">
+            </ListView>
+        </LinearLayout>
+
     </FrameLayout>
+
 </LinearLayout>

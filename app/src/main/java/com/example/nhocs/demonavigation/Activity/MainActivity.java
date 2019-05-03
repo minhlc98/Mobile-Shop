@@ -1,46 +1,51 @@
 package com.example.nhocs.demonavigation.Activity;
 
 
+import android.Manifest;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.RequestQueue;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.nhocs.demonavigation.Adapter.ViewPagerAdapter;
+import com.example.nhocs.demonavigation.Api.RetrofitClient;
+import com.example.nhocs.demonavigation.Model.Banner;
+import com.example.nhocs.demonavigation.Model.ShrPreferences;
+import com.example.nhocs.demonavigation.Model.ThongTinNguoiDung;
+import com.example.nhocs.demonavigation.Model.ThongTinSanPham;
 import com.example.nhocs.demonavigation.Ulti.Database;
 import com.example.nhocs.demonavigation.Model.LoaiSP;
 import com.example.nhocs.demonavigation.Adapter.Menu_Adapter;
 import com.example.nhocs.demonavigation.R;
-import com.example.nhocs.demonavigation.Model.SanPham;
 import com.example.nhocs.demonavigation.Adapter.SanPhamMoiNhatAdapter;
 import com.example.nhocs.demonavigation.Ulti.NetworkManager;
-import com.example.nhocs.demonavigation.Ulti.Server;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -50,22 +55,29 @@ public class MainActivity extends AppCompatActivity {
     DrawerLayout drawer;
     RecyclerView recyclerView;
     ArrayList<LoaiSP> danh_sach_loai_san_pham;
-    ArrayList<SanPham> danh_sach_san_pham;
+    ArrayList<ThongTinSanPham> danh_sach_san_pham;
+    ArrayList<Banner> mang_hinh_anh;
     Menu_Adapter menu_adapter;
     SanPhamMoiNhatAdapter sanPhamAdapter;
     CountDownTimer countDownTimer;
     ViewPagerAdapter adapter;
     ViewPager viewPager;
-    ArrayList<String> mang_hinh_anh;
     TextView txt_count;
-    TextView[] dot;
+    ArrayList<TextView> dot;
     ImageButton cart;
     int previous_dot;
     MenuItem menuItem;
     Button btnThuLai;
-    LinearLayout linearLayout;
+    LinearLayout linearLayout, myDot;
     public static Database database;
     public static int soluong_giohang;
+    SwipeRefreshLayout swipeRefreshLayout;
+    EditText edtSearch;
+    long time_backPressed;
+    public final String dbName="DienThoaiDiDong.sqlite";
+    boolean check_created, isLogin;//để tránh tạo tạo 1 số cái như mapping, setTime_To_Change_Page, actionBar,event,get_SoLuong_GioHang
+    //Vì khi rớt mạng mà refresh sẽ cho layout noInternet, khi người dùng có mạng r và click vào nút thử lại hoặc kéo refresh
+    //thì sẽ load lại nhưng sẽ k chạy lại 1 sẽ hàm nói trên
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,30 +89,74 @@ public class MainActivity extends AppCompatActivity {
         btnThuLai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (NetworkManager.check_Connection(getApplicationContext())) {
+                if (NetworkManager.isOnline(getApplicationContext())) {
                     linearLayout.setVisibility(View.INVISIBLE);
                     drawer.setVisibility(View.VISIBLE);
                     loadAll();
+                    check_created=true;
                 }
             }
         });
-        if (NetworkManager.check_Connection(getApplicationContext())){
+        swipeRefreshLayout=(SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setDistanceToTriggerSync(200);
+        swipeRefreshLayout.setColorSchemeResources(R.color.blue,R.color.green,R.color.red,R.color.yellow);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(true);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (check_created) {//nếu dữ liệu đã đc tạo thì mới clear
+                            viewPager.setCurrentItem(0);
+                            mang_hinh_anh.clear();
+                            danh_sach_loai_san_pham.clear();
+                            danh_sach_san_pham.clear();
+                            menu_adapter.notifyDataSetChanged();
+                            sanPhamAdapter.notifyDataSetChanged();
+                            adapter.notifyDataSetChanged();
+                            countDownTimer.cancel();
+                        }
+                        swipeRefreshLayout.setRefreshing(false);
+                        if (NetworkManager.isOnline(getApplicationContext())) {
+                            loadAll();
+                            drawer.setVisibility(View.VISIBLE);
+                            linearLayout.setVisibility(View.INVISIBLE);
+
+                        } else {
+                            linearLayout.setVisibility(View.VISIBLE);
+                            drawer.setVisibility(View.INVISIBLE);
+                        }
+                    }
+                }, 2000);
+            }
+
+        });
+
+        if (NetworkManager.isOnline(getApplicationContext())){
             loadAll();
+            check_created=true;
         }
         else{
             drawer.setVisibility(View.INVISIBLE);
             linearLayout.setVisibility(View.VISIBLE);
+
         }
     }
     public void loadAll(){
-        Mapping();
-        actionBar();
+        if (!check_created) {
+            Mapping();
+            actionBar();
+            Event();
+            getSoLuong_GioHang();
+            setTime_to_ChangeViewPager();
+        }
+        else{
+            countDownTimer.start();
+        }
         LoadAds();
-        Menu_List(Server.url_getLoaiSanPham);
-        load_SPMoiNhat(Server.url_getSanPhamMoiNhat);
-        getSoLuong_GioHang();
-        Event();
-        setTime_to_ChangeViewPager();
+        Menu_List();
+        getSanPhamMoiNhat();
     }
     public void setTime_to_ChangeViewPager(){
         countDownTimer=new CountDownTimer(10000,1000) {
@@ -116,10 +172,11 @@ public class MainActivity extends AppCompatActivity {
                     case 1:viewPager.setCurrentItem(2);break;
                     case 2:viewPager.setCurrentItem(3);break;
                     case 3:viewPager.setCurrentItem(4);break;
+                    case 4:viewPager.setCurrentItem(5);break;
                     default:viewPager.setCurrentItem(0);break;
                 }
             }
-        };
+        }.start();
     }
     public void Event(){
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -130,16 +187,22 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                dot[previous_dot].setBackgroundResource(R.drawable.dot);
-                dot[position].setBackgroundResource(R.drawable.active_dot);
+                dot.get(previous_dot).setBackgroundResource(R.drawable.dot);
+                dot.get(position).setBackgroundResource(R.drawable.active_dot);
                 previous_dot=position;
                 countDownTimer.cancel();
                 countDownTimer.start();
+
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
+                //các giá trị 1 2 0
+                //Giá trị 0 là lúc không đụng gì nữa
+                //2 trang thái khi là kéo qua
+                //1 là khi kéo xong k còn làm gì nữa sẽ ra 1 sau đó chuyển sang trang thái 0
+                if (state!=0) swipeRefreshLayout.setEnabled(false);
+                else swipeRefreshLayout.setEnabled(true);
             }
         });
 
@@ -147,8 +210,18 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                if (position!=0){
-                    if (position==danh_sach_loai_san_pham.size()-2){
+                if (position!=1){
+                    if (position==0){
+                        if (isLogin) {
+                            Intent intent = new Intent(MainActivity.this, General_Info_Activity.class);
+                            startActivity(intent);
+                        }
+                        else{
+                            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                        }
+                    }
+                    else if (position==danh_sach_loai_san_pham.size()-2){
                         Intent intent=new Intent(MainActivity.this,LienHe.class);
                         startActivity(intent);
                     }else if (position==danh_sach_loai_san_pham.size()-1)
@@ -163,7 +236,7 @@ public class MainActivity extends AppCompatActivity {
                     else {
                         Intent intent = new Intent(MainActivity.this, DanhSachSanPham.class);
                         Bundle bundle = new Bundle();
-                        bundle.putInt("ID", position);
+                        bundle.putInt("ID", position-1);
                         bundle.putString("title", danh_sach_loai_san_pham.get(position).getTenSP());
                         intent.putExtras(bundle);
                         startActivity(intent);
@@ -174,7 +247,36 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+
+            }
+
+            @Override
+            public void onDrawerOpened( View drawerView) {
+                swipeRefreshLayout.setEnabled(false);
+            }
+
+            @Override
+            public void onDrawerClosed( View drawerView) {
+                swipeRefreshLayout.setEnabled(true);
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+
+            }
+        });
+        edtSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(MainActivity.this,TimKiem.class);
+                startActivity(intent);
+            }
+        });
     }
+
     public void getSoLuong_GioHang() {
         Cursor cursor=database.getData("Select * from GIOHANG");
         soluong_giohang=cursor.getCount();
@@ -182,6 +284,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu,menu);
+        menu.getItem(0).setVisible(false);
         menuItem=menu.findItem(R.id.item_store);
         View view=menuItem.getActionView();
         if (view!=null)
@@ -211,28 +314,27 @@ public class MainActivity extends AppCompatActivity {
         listView=(ListView) findViewById(R.id.listView);
         recyclerView=findViewById(R.id.recyclerView);
         viewPager=(ViewPager) findViewById(R.id.viewPager);
-        dot=new TextView[5];
-        dot[0]=(TextView) findViewById(R.id.dot1);
-        dot[1]=(TextView) findViewById(R.id.dot2);
-        dot[2]=(TextView) findViewById(R.id.dot3);
-        dot[3]=(TextView) findViewById(R.id.dot4);
-        dot[4]=(TextView) findViewById(R.id.dot5);
+        edtSearch=(EditText) findViewById(R.id.edtSearch);
+        dot=new ArrayList<>();
+        myDot=(LinearLayout) findViewById(R.id.myDot);
         danh_sach_loai_san_pham=new ArrayList<>();
         mang_hinh_anh=new ArrayList<>();
         menu_adapter=new Menu_Adapter(this,R.layout.menu_navigation,danh_sach_loai_san_pham);
         listView.setAdapter(menu_adapter);
         danh_sach_san_pham=new ArrayList<>();
-        sanPhamAdapter=new SanPhamMoiNhatAdapter(this,danh_sach_san_pham,R.layout.danh_sach_san_pham_moi_nhat);
+        sanPhamAdapter=new SanPhamMoiNhatAdapter(this,danh_sach_san_pham,R.layout.san_pham_moi_nhat);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(this,2));
         recyclerView.setAdapter(sanPhamAdapter);
-        database=new Database(this,"DienThoaiDiDong.sqlite",null,1);
+        database=new Database(this,dbName,null,1);
+        adapter=new ViewPagerAdapter(mang_hinh_anh,MainActivity.this);
+        viewPager.setAdapter(adapter);
 
     }
     public void actionBar() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationIcon(android.R.drawable.ic_menu_sort_by_size);
+        toolbar.setNavigationIcon(R.drawable.ic_menu);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -241,17 +343,35 @@ public class MainActivity extends AppCompatActivity {
         });
     }
     public void LoadAds() {
-        mang_hinh_anh.add("http://minhlc98.000webhostapp.com/image1.jpg");
-        mang_hinh_anh.add("http://minhlc98.000webhostapp.com/image2.jpg");
-        mang_hinh_anh.add("http://minhlc98.000webhostapp.com/image3.jpg");
-        mang_hinh_anh.add("http://minhlc98.000webhostapp.com/image4.jpg");
-        mang_hinh_anh.add("http://minhlc98.000webhostapp.com/image5.jpg");
-        adapter=new ViewPagerAdapter(mang_hinh_anh,this);
-        viewPager.setAdapter(adapter);
+        final LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(24,24);
+        RetrofitClient.getInstace().getService().getQuangCao().enqueue(new Callback<ArrayList<Banner>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Banner>> call, retrofit2.Response<ArrayList<Banner>> response) {
+                if (response.isSuccessful()){
+                    myDot.removeAllViews();
+                    for (int i=0;i<response.body().size();++i){
+                        mang_hinh_anh.add(response.body().get(i));
+                        TextView tv=new TextView(MainActivity.this);
+                        if (i==0) tv.setBackgroundResource(R.drawable.active_dot);
+                        else tv.setBackgroundResource(R.drawable.dot);
+                        tv.setLayoutParams(params);
+                        params.setMargins(20,20,20,20);
+                        dot.add(tv);
+                        myDot.addView(dot.get(i));
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<Banner>> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "Không có kết nối", Toast.LENGTH_LONG).show();
+            }
+        });
     }
     @Override
     protected void onResume() {
-        if (countDownTimer!=null) countDownTimer.start();
+       // if (countDownTimer!=null) countDownTimer.start();
         if (txt_count!=null) txt_count.setText(String.valueOf(soluong_giohang));
         super.onResume();
     }
@@ -260,73 +380,90 @@ public class MainActivity extends AppCompatActivity {
         if (countDownTimer!=null)  countDownTimer.cancel();
         super.onPause();
     }
-    public void Menu_List(String url) {
-        RequestQueue requestQueue= Volley.newRequestQueue(this);
-        JsonArrayRequest jsonArrayRequest=new JsonArrayRequest(url,new com.android.volley.Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                String urlTrangChu="http://www.apsaigonpetro.com/assets/images/home.png";
-                danh_sach_loai_san_pham.add(new LoaiSP(0,"Trang Chủ", urlTrangChu));
-                for (int i=0;i<response.length();++i)
-                {
-                    try {
-                        JSONObject jsonObject=response.getJSONObject(i);
-                        danh_sach_loai_san_pham.add(new LoaiSP(jsonObject.getInt("ID"),jsonObject.getString("TenSP"),jsonObject.getString("Hinh")));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
 
-                    }
-                }
-                //String urlDanhSachYeuThich="http://fotomelia.com/wp-content/uploads/edd/2016/01/image-gratuite-libre-de-droit-creative-commoons-CCo-20-1560x1154.png";
-                String urlLienHe="https://images.vexels.com/media/users/3/134904/isolated/preview/55500571b8176366dd4298b925235cb2-3d-contact-support-icon-by-vexels.png";
-                String urlThongTin="http://www.cooperacion2005.es/wp-content/uploads/2015/09/11949858491812712425information_sign_mo_01.svg_.hi_.png";
-                String urlKiemTra="https://eventis-sauerland.de/wp-content/uploads/2017/05/icon-803718_640.png";
-                //danh_sach_loai_san_pham.add(new LoaiSP(danh_sach_loai_san_pham.size(),"Sản phẩm yêu thích",urlDanhSachYeuThich));
-                danh_sach_loai_san_pham.add(new LoaiSP(danh_sach_loai_san_pham.size(),"Kiểm tra",urlKiemTra));
-                danh_sach_loai_san_pham.add(new LoaiSP(danh_sach_loai_san_pham.size(),"Liên hệ",urlLienHe));
-                danh_sach_loai_san_pham.add(new LoaiSP(danh_sach_loai_san_pham.size(),"Thông tin",urlThongTin));
+    @Override
+    protected void onRestart() {
+        //index 0 is user name
+        ThongTinNguoiDung tt=ShrPreferences.getInstance(MainActivity.this).getInfo();
+        if (tt != null) {
+            String oldImage = danh_sach_loai_san_pham.get(0).getHinhAnh();
+            String oldName = danh_sach_loai_san_pham.get(0).getTenSP();
+            String currentImage = "http://minhlc.000webhostapp.com/" + tt.getImage();//image if has change
+            if (!oldImage.equals(currentImage) || !oldName.equals(tt.getFullName())) {
+                danh_sach_loai_san_pham.set(0, new LoaiSP(0, tt.getFullName(), currentImage));
                 menu_adapter.notifyDataSetChanged();
             }
-        }, new com.android.volley.Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(MainActivity.this, "Lỗi kết nối", Toast.LENGTH_SHORT).show();
-            }
         }
-        );
-        jsonArrayRequest.setRetryPolicy(new DefaultRetryPolicy(10000,5,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        requestQueue.add(jsonArrayRequest);
+        super.onRestart();
     }
-    public void load_SPMoiNhat(String url) {
-        RequestQueue requestQueue= Volley.newRequestQueue(this);
-        JsonArrayRequest jsonArrayRequest=new JsonArrayRequest(url,new com.android.volley.Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                for (int i=0;i<response.length();++i)
-                {
-                    try {
-                        JSONObject jsonObject=response.getJSONObject(i);
-                        SanPham sp=new SanPham(jsonObject.getInt("ID"),
-                                jsonObject.getInt("Gia"),
-                                jsonObject.getString("TenSP"),
-                                jsonObject.getString("Hinh"),
-                                jsonObject.getString("MoTa"));
-                        danh_sach_san_pham.add(sp);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
 
-                }
-                sanPhamAdapter.notifyDataSetChanged();
-            }
-        }, new com.android.volley.Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
+    @Override
+    public void onBackPressed() {
+        if (time_backPressed+2000 > System.currentTimeMillis()){
+            super.onBackPressed();
+            return ;
         }
-        );
-        jsonArrayRequest.setRetryPolicy(new DefaultRetryPolicy(10000,5,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        requestQueue.add(jsonArrayRequest);
+        else{
+            Toast.makeText(this,"Nhấn lần nữa để thoát",Toast.LENGTH_SHORT).show();
+        }
+        time_backPressed=System.currentTimeMillis();
+    }
+
+    public void Menu_List() {
+        RetrofitClient.getInstace().getService().getLoaiSanPham().enqueue(new Callback<ArrayList<LoaiSP>>() {
+            @Override
+            public void onResponse(Call<ArrayList<LoaiSP>> call, retrofit2.Response<ArrayList<LoaiSP>> response) {
+                if (response.isSuccessful()){
+                    if (danh_sach_loai_san_pham.size()>0) danh_sach_loai_san_pham.clear();
+                    ThongTinNguoiDung tt=ShrPreferences.getInstance(MainActivity.this).getInfo();
+                    if (tt!=null){
+                        String urlProfile="http://minhlc.000webhostapp.com/"+tt.getImage();
+                        danh_sach_loai_san_pham.add(new LoaiSP(0,tt.getFullName(),urlProfile));
+                        isLogin=true;
+                    }
+                    else{
+                        String urlLogin="https://employeebenefits.com/images/login_icon.png";
+                        danh_sach_loai_san_pham.add(new LoaiSP(0,"Đăng nhập",urlLogin));
+                    }
+                    String urlTrangChu="http://www.apsaigonpetro.com/assets/images/home.png";
+                    danh_sach_loai_san_pham.add(new LoaiSP(1,"Trang Chủ", urlTrangChu));
+
+                    for (int i=0;i<response.body().size();++i){
+                        danh_sach_loai_san_pham.add(response.body().get(i));
+                    }
+                    String urlLienHe="https://images.vexels.com/media/users/3/134904/isolated/preview/55500571b8176366dd4298b925235cb2-3d-contact-support-icon-by-vexels.png";
+                    String urlThongTin="http://www.cooperacion2005.es/wp-content/uploads/2015/09/11949858491812712425information_sign_mo_01.svg_.hi_.png";
+                    String urlKiemTra="https://eventis-sauerland.de/wp-content/uploads/2017/05/icon-803718_640.png";
+                    danh_sach_loai_san_pham.add(new LoaiSP(danh_sach_loai_san_pham.size(),"Kiểm tra",urlKiemTra));
+                    danh_sach_loai_san_pham.add(new LoaiSP(danh_sach_loai_san_pham.size(),"Liên hệ",urlLienHe));
+                    danh_sach_loai_san_pham.add(new LoaiSP(danh_sach_loai_san_pham.size(),"Thông tin",urlThongTin));
+                    menu_adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<LoaiSP>> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "Không có kết nối", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+    public void getSanPhamMoiNhat(){
+        RetrofitClient.getInstace().getService().getSanPhamMoiNhat().enqueue(new Callback<ArrayList<ThongTinSanPham>>() {
+            @Override
+            public void onResponse(Call<ArrayList<ThongTinSanPham>> call, retrofit2.Response<ArrayList<ThongTinSanPham>> response) {
+                if (response.isSuccessful()){
+                    if (danh_sach_san_pham.size()>0) danh_sach_san_pham.clear();
+                    for (int i=0;i<response.body().size();++i){
+                        danh_sach_san_pham.add(response.body().get(i));
+                    }
+                    sanPhamAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<ThongTinSanPham>> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "Không có kết nối", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

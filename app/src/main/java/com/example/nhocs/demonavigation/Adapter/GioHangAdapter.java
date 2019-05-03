@@ -12,9 +12,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.nhocs.demonavigation.Activity.GioHang;
 import com.example.nhocs.demonavigation.Activity.MainActivity;
+import com.example.nhocs.demonavigation.Model.GlideApp;
 import com.example.nhocs.demonavigation.Model.ThongTinGioHang;
 import com.example.nhocs.demonavigation.R;
-import com.squareup.picasso.Picasso;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -98,7 +98,7 @@ public class GioHangAdapter extends BaseAdapter {
                 Delete_Item(position);
             }
         });
-        Picasso.get().load(arrayList.get(position).getUrlHinh()).placeholder(R.drawable.no_image).into(viewHolder.imageViewGioHang);
+        GlideApp.with(context).load(arrayList.get(position).getUrlHinh()).placeholder(R.drawable.no_image).into(viewHolder.imageViewGioHang);
         return convertView;
     }
     public void Delete_Item(final int position) {

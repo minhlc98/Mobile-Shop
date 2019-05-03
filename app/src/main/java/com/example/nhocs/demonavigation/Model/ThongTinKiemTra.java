@@ -1,7 +1,14 @@
 package com.example.nhocs.demonavigation.Model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class ThongTinKiemTra {
+    @SerializedName("TenSP")
+    @Expose
     private String TenSP;
+    @SerializedName("SoLuong")
+    @Expose
     private int SL;
 
     public ThongTinKiemTra(String TenSP, int SL, int Gia) {
@@ -21,5 +28,7 @@ public class ThongTinKiemTra {
         return Gia;
     }
 
+    @SerializedName("Gia")
+    @Expose
     private int Gia;
 }

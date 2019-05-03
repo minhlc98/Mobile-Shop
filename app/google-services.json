@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "176934823439",
+    "firebase_url": "https://fir-sms-2ea6a.firebaseio.com",
+    "project_id": "fir-sms-2ea6a",
+    "storage_bucket": "fir-sms-2ea6a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:176934823439:android:36e6f049a461fd78",
+        "android_client_info": {
+          "package_name": "com.example.nhocs.demonavigation"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "176934823439-2kp8q1bvmdhsck860ijf6rh4jr6ocfti.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.nhocs.demonavigation",
+            "certificate_hash": "b5b184e0795e23eae1c61e6824f757a5c09eb1d4"
+          }
+        },
+        {
+          "client_id": "176934823439-affcjmgttebvq8nce1s2hg6vupjdbvt3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnIndg7jBcQAxfMX0iB8FDckon3XxQm8c"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "176934823439-affcjmgttebvq8nce1s2hg6vupjdbvt3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

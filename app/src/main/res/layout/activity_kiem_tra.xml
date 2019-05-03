@@ -20,31 +20,36 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
-        android:background="#D2691E">
+        android:background="#EEEEEE"
+        >
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="ID Đơn Hàng"
             android:id="@+id/edtIDDonHang"
-            android:textColorHint="#FFFFFF"
+            android:textColorHint="#BEBEBE"
             android:inputType="number"
             android:textSize="20dp"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/blue"
+            android:drawableLeft="@drawable/ic_keyboard_black_24dp"
             android:layout_margin="5dp"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Tên Khách Hàng"
-            android:textColorHint="#FFFFFF"
-            android:textColor="#FFFFFF"
+            android:textColorHint="#BEBEBE"
+            android:textColor="@color/black"
             android:id="@+id/edtTenKH"
+            android:backgroundTint="@color/blue"
+            android:drawableLeft="@drawable/ic_person"
             android:layout_margin="5dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Vui lòng điền thông tin hợp lệ !"
             android:layout_marginLeft="5dp"
-            android:textColor="#ffdd00"
+            android:textColor="#F80C42"
             android:id="@+id/txtLoi"
             android:textSize="18dp"
             android:visibility="invisible"
@@ -55,16 +60,18 @@
             android:layout_gravity="end"
             android:text="Kiểm tra"
             android:textAllCaps="false"
-            android:textSize="20dp"
+            android:textSize="18sp"
             android:id="@+id/btnKiemTra"
-            android:layout_marginRight="10dp"/>
+            android:background="#22CE38"
+            android:textColor="@color/white"
+            android:layout_marginRight="20dp"/>
     </LinearLayout>
     <LinearLayout
         android:layout_weight="5"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
-        android:background="#CD9B9B">
+        android:background="#30C2E7">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

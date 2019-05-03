@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    >
+    <ImageView
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:src="@drawable/ic_back_24dp"
+        android:id="@+id/imgBack"
+        />
+    <EditText
+        android:layout_below="@id/imgBack"
+        android:id="@+id/edtOldPass"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:hint="Mật khẩu cũ"
+        android:background="#E4CCC8"
+        android:padding="12dp"
+        android:layout_margin="10dp"
+        android:layout_centerHorizontal="true"
+        android:inputType="textPassword"/>
+    <EditText
+        android:layout_below="@id/edtOldPass"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/edtNewPass"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:hint="Mật khẩu mới"
+        android:background="#E4CCC8"
+        android:padding="12dp"
+        android:layout_margin="10dp"
+        android:inputType="textPassword"/>
+    <EditText
+        android:layout_below="@id/edtNewPass"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/edtConfirmPass"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:hint="Nhập lại mật khẩu mới"
+        android:background="#E4CCC8"
+        android:padding="12dp"
+        android:layout_margin="10dp"
+        android:inputType="textPassword"/>
+    <Button
+        android:layout_below="@id/edtConfirmPass"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/btnChangePass"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:background="@color/blue"
+        android:text="cập nhật"
+        android:textColor="@color/white"
+        android:layout_margin="10dp"/>
+    <!--<Button-->
+        <!--android:layout_margin="10dp"-->
+        <!--android:id="@+id/btnCancel"-->
+        <!--android:layout_width="300dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@color/blue"-->
+        <!--android:text="Hủy"-->
+        <!--android:textColor="@color/white"/>-->
+
+</RelativeLayout>

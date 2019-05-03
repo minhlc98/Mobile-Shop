@@ -15,9 +15,10 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.nhocs.demonavigation.Model.GlideApp;
+import com.example.nhocs.demonavigation.Model.ThongTinSanPham;
 import com.example.nhocs.demonavigation.R;
-import com.example.nhocs.demonavigation.Model.SanPham;
-import com.squareup.picasso.Picasso;
 import java.text.DecimalFormat;
 
 public class ChiTietSanPham extends AppCompatActivity {
@@ -26,7 +27,7 @@ public class ChiTietSanPham extends AppCompatActivity {
     Button btnThemVaoGioHang;
     Spinner spinner;
     Toolbar toolbar;
-    SanPham sp;
+    ThongTinSanPham sp;
     TextView txt_count;
     ImageButton cart;
     MenuItem menuItem;
@@ -87,12 +88,15 @@ public class ChiTietSanPham extends AppCompatActivity {
     }
     public void EventSpinner() {
         Integer[] integers=new Integer[]{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
-        ArrayAdapter adapter=new ArrayAdapter(this,android.R.layout.simple_spinner_dropdown_item,integers);
+        ArrayAdapter adapter=new ArrayAdapter(this,R.layout.spinner_item,integers);
+        adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         spinner.setAdapter(adapter);
+
+
     }
     public void getThongTin() {
-        sp= (SanPham) getIntent().getSerializableExtra("ThongTinSanPham");
-        Picasso.get().load(sp.getUrlHinh()).into(imageChiTiet);
+        sp= (ThongTinSanPham) getIntent().getSerializableExtra("ThongTinSanPham");
+        GlideApp.with(this).load(sp.getUrlHinh()).into(imageChiTiet);
         txtTenSPChiTiet.setText(sp.getTenSP());
         DecimalFormat decimalFormat=new DecimalFormat("###,###,###");
         txtGiaChiTiet.setText("Giá "+decimalFormat.format(sp.getGia())+"đ");

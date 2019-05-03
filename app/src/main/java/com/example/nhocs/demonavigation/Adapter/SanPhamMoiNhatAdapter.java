@@ -7,26 +7,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
-
+import com.bumptech.glide.request.RequestOptions;
 import com.example.nhocs.demonavigation.Activity.ChiTietSanPham;
+import com.example.nhocs.demonavigation.Model.GlideApp;
+import com.example.nhocs.demonavigation.Model.ThongTinSanPham;
 import com.example.nhocs.demonavigation.R;
-import com.squareup.picasso.Picasso;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-
-import com.example.nhocs.demonavigation.Model.SanPham;
 
 public class SanPhamMoiNhatAdapter extends RecyclerView.Adapter<SanPhamMoiNhatAdapter.ItemHolder>  {
     Activity context;
 
-    public SanPhamMoiNhatAdapter(Activity context, ArrayList<SanPham> arrayList, int layout_id) {
+    public SanPhamMoiNhatAdapter(Activity context, ArrayList<ThongTinSanPham> arrayList, int layout_id) {
         this.context = context;
         this.arrayList = arrayList;
         this.layout_id = layout_id;
     }
 
-    ArrayList<SanPham> arrayList;
+    ArrayList<ThongTinSanPham> arrayList;
     int layout_id;
     @Override
     public ItemHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -41,7 +41,8 @@ public class SanPhamMoiNhatAdapter extends RecyclerView.Adapter<SanPhamMoiNhatAd
         holder.txtTenSP.setText(arrayList.get(position).getTenSP());
         DecimalFormat decimalFormat=new DecimalFormat("###,###,###");
         holder.txtGia.setText("Giá "+decimalFormat.format(arrayList.get(position).getGia())+" đ");
-        Picasso.get().load(arrayList.get(position).getUrlHinh()).placeholder(R.drawable.no_image).into(holder.hinhSP);
+        GlideApp.with(context).load(arrayList.get(position).getUrlHinh()).placeholder(R.drawable.no_image).into(holder.hinhSP);
+        holder.rating.setRating(arrayList.get(position).getDanhGia());
     }
 
     public void ClickItem(int position) {
@@ -58,11 +59,13 @@ public class SanPhamMoiNhatAdapter extends RecyclerView.Adapter<SanPhamMoiNhatAd
     public class ItemHolder extends RecyclerView.ViewHolder {
         ImageView hinhSP;
         TextView txtTenSP, txtGia;
+        RatingBar rating;
         public ItemHolder(View itemView) {
             super(itemView);
             hinhSP=(ImageView) itemView.findViewById(R.id.hinhSP);
             txtTenSP=(TextView) itemView.findViewById(R.id.txtTenSP);
             txtGia=(TextView) itemView.findViewById(R.id.txtGia);
+            rating=(RatingBar) itemView.findViewById(R.id.rating_main) ;
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -70,5 +73,7 @@ public class SanPhamMoiNhatAdapter extends RecyclerView.Adapter<SanPhamMoiNhatAd
                 }
             });
         }
+
     }
+
 }

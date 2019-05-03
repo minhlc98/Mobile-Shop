@@ -1,11 +1,33 @@
 package com.example.nhocs.demonavigation.Model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
-public class SanPham  implements Serializable {
-    private int ID, Gia ;
-    private String TenSP;
+public class SanPham implements Serializable {
+    @SerializedName("ID")
+    @Expose
+    protected int ID;
 
+    @SerializedName("Gia")
+    @Expose
+    protected int Gia;
+
+    @SerializedName("TenSP")
+    @Expose
+    protected String TenSP;
+
+    @SerializedName("Hinh")
+    @Expose
+    protected String urlHinh;
+
+    public SanPham(int ID, int gia, String tenSP, String urlHinh) {
+        this.ID = ID;
+        this.Gia = gia;
+        this.TenSP = tenSP;
+        this.urlHinh = urlHinh;
+    }
     public int getID() {
         return ID;
     }
@@ -19,23 +41,7 @@ public class SanPham  implements Serializable {
     }
 
     public String getUrlHinh() {
-        return UrlHinh;
+        return urlHinh;
     }
-
-    public String getMoTa() {
-        return MoTa;
-    }
-
-    private String UrlHinh;
-    private String MoTa;
-
-    public SanPham(int ID, int gia, String tenSP, String urlHinh, String moTa) {
-        this.ID = ID;
-        Gia = gia;
-        TenSP = tenSP;
-        UrlHinh = urlHinh;
-        MoTa = moTa;
-    }
-
 
 }

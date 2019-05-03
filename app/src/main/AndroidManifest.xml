@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -12,46 +14,52 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/map_api_key" />
-
         <activity
-            android:name=".Activity.MainActivity"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".Activity.DanhSachSanPham"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".Activity.ChiTietSanPham"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".Activity.GioHang"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".Activity.ThanhToan"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".Activity.LienHe"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".Activity.TimKiem"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".Activity.ThongTin"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".Activity.KiemTra"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".Activity.StartMain"
-            android:screenOrientation="portrait">
+            android:name=".Activity.SplashScreenActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/SplashscreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Activity.General_Info_Activity" />
+        <activity android:name=".Activity.LoginActivity" />
+        <activity android:name=".Activity.Activity_Authentication" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/map_api_key" />
+
+        <activity
+            android:name=".Activity.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.DanhSachSanPham"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.ChiTietSanPham"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.GioHang"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.ThanhToan"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.LienHe"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.TimKiem"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.ThongTin"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.KiemTra"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing" />
     </application>
 
 </manifest>

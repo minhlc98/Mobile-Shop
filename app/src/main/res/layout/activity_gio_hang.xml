@@ -12,7 +12,7 @@
         android:layout_height="?attr/actionBarSize"
         android:id="@+id/toolbarGioHang"
         android:background="#5050ed"
-        app:titleTextColor="#FFFFFF"
+        app:titleTextColor="@color/white"
         app:title="Giỏ hàng">
     </android.support.v7.widget.Toolbar>
     <LinearLayout
@@ -83,7 +83,7 @@
         android:layout_height="0dp"
         android:text="Tiến hành đặt hàng"
         android:id="@+id/btnThanhToan"
-        android:background="#F20"
+        android:background="@drawable/custom_button"
         android:textColor="#FFFFFF"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"/>
@@ -91,10 +91,10 @@
         android:layout_weight="0.8"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:text="Tiếp tục mua hàng"
+        android:text="Tiếp tục mua sắm"
         android:id="@+id/btnTiepTuc"
-        android:background="#b8558436"
-        android:textColor="#0000CD"
+        android:background="@drawable/custom_button1"
+        android:textColor="#ffffff"
         android:layout_margin="10dp"/>
 
 </LinearLayout>

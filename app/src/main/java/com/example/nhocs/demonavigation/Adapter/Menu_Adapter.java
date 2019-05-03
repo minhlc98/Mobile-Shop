@@ -9,9 +9,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.request.RequestOptions;
+import com.example.nhocs.demonavigation.Model.GlideApp;
 import com.example.nhocs.demonavigation.Model.LoaiSP;
 import com.example.nhocs.demonavigation.R;
-import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 
@@ -43,7 +44,17 @@ public class Menu_Adapter extends ArrayAdapter<LoaiSP> {
             viewHolder= (ViewHolder) convertView.getTag();
         }
         viewHolder.textView.setText(arrayList.get(position).getTenSP());
-        Picasso.get().load(arrayList.get(position).getHinhAnh()).placeholder(R.drawable.no_image).into(viewHolder.image);
+        if(position==0) GlideApp.with(context)
+                                .load(arrayList.get(position).getHinhAnh())
+                                .apply(RequestOptions.circleCropTransform())
+                                .placeholder(R.drawable.no_image)
+                                .into(viewHolder.image);
+        else {
+            GlideApp.with(context)
+                    .load(arrayList.get(position).getHinhAnh())
+                    .placeholder(R.drawable.no_image)
+                    .into(viewHolder.image);
+        }
         return convertView;
     }
     public class ViewHolder{

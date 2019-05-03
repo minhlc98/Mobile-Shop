@@ -6,22 +6,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.example.nhocs.demonavigation.Model.GlideApp;
+import com.example.nhocs.demonavigation.Model.ThongTinSanPham;
 import com.example.nhocs.demonavigation.R;
-import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-import com.example.nhocs.demonavigation.Model.SanPham;
-
 
 public class SanPhamAdapter extends ArrayAdapter {
     Activity context;
-    ArrayList<SanPham> arrayList;
+    ArrayList<ThongTinSanPham> arrayList;
     int layout_id;
-    public SanPhamAdapter(Activity context, int resource, ArrayList<SanPham> objects) {
+    public SanPhamAdapter(Activity context, int resource, ArrayList<ThongTinSanPham> objects) {
         super(context, resource, objects);
         this.context=context;
         this.layout_id=resource;
@@ -30,6 +30,7 @@ public class SanPhamAdapter extends ArrayAdapter {
     public class ViewHolder{
         ImageView imageSanPham;
         TextView textViewTenSP, textViewGia, textViewMoTa;
+        RatingBar rating;
 
     }
     @Override
@@ -43,6 +44,7 @@ public class SanPhamAdapter extends ArrayAdapter {
             viewHolder.textViewTenSP=(TextView) convertView.findViewById(R.id.textViewTenSP);
             viewHolder.textViewGia=(TextView) convertView.findViewById(R.id.textViewGia);
             viewHolder.textViewMoTa=(TextView) convertView.findViewById(R.id.textViewMoTa);
+            viewHolder.rating=(RatingBar) convertView.findViewById(R.id.rating_product);
             convertView.setTag(viewHolder);
         }
         else{
@@ -52,7 +54,8 @@ public class SanPhamAdapter extends ArrayAdapter {
         viewHolder.textViewGia.setText("Giá "+decimalFormat.format(arrayList.get(position).getGia())+"đ");
         viewHolder.textViewTenSP.setText(arrayList.get(position).getTenSP());
         viewHolder.textViewMoTa.setText(arrayList.get(position).getMoTa());
-        Picasso.get().load(arrayList.get(position).getUrlHinh()).placeholder(R.drawable.no_image).into(viewHolder.imageSanPham);
+        viewHolder.rating.setRating(arrayList.get(position).getDanhGia());
+        GlideApp.with(context).load(arrayList.get(position).getUrlHinh()).placeholder(R.drawable.no_image).into(viewHolder.imageSanPham);
         return convertView;
     }
 }
