@@ -5,10 +5,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.LinearLayout;
-
 import com.example.nhocs.demonavigation.Fragment.Fragment_ChangePass;
-import com.example.nhocs.demonavigation.Fragment.Fragment_Info;
 import com.example.nhocs.demonavigation.R;
 
 public class General_Info_Activity extends AppCompatActivity {

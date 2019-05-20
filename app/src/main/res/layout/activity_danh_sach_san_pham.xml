@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/swipe"
+    android:background="@color/white"
     tools:context="com.example.nhocs.demonavigation.Activity.DanhSachSanPham">
     <FrameLayout
         android:layout_width="match_parent"

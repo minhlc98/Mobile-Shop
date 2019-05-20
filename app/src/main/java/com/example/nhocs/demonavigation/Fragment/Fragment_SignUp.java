@@ -67,7 +67,6 @@ public class Fragment_SignUp extends Fragment {
                 dialog.setContentView(R.layout.layout_loading);
                 dialog.show();
                 checkExistAcc(dialog,edtAcc.getText().toString().trim());
-                fragLogin();
             }
 
         });
@@ -91,6 +90,9 @@ public class Fragment_SignUp extends Fragment {
                         dialog.cancel();
                         Toast.makeText(getActivity(), "Đăng ký thành công", Toast.LENGTH_LONG).show();
                         fragLogin();
+                    }
+                    else{
+                        Toast.makeText(getContext(), result, Toast.LENGTH_SHORT).show();
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

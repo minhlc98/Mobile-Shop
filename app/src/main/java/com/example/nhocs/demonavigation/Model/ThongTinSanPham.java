@@ -23,9 +23,17 @@ public class ThongTinSanPham extends SanPham {
     @Expose
     private float DanhGia;
 
-    public ThongTinSanPham(int ID, int gia, String tenSP, String urlHinh, String moTa, float danhGia) {
+    public int getSLDanhGia() {
+        return SLDanhGia;
+    }
+
+    @SerializedName("SLDanhGia")
+    @Expose
+    private int SLDanhGia;
+    public ThongTinSanPham(int ID, int gia, String tenSP, String urlHinh, String moTa, float danhGia, int slDanhGia) {
         super(ID,gia,tenSP,urlHinh);
         this.MoTa = moTa;
         this.DanhGia=danhGia;
+        this.SLDanhGia=slDanhGia;
     }
 }

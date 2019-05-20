@@ -1,12 +1,10 @@
 package com.example.nhocs.demonavigation.Activity;
 
 
-import android.Manifest;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.CountDownTimer;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -17,10 +15,8 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -75,7 +71,8 @@ public class MainActivity extends AppCompatActivity {
     EditText edtSearch;
     long time_backPressed;
     public final String dbName="DienThoaiDiDong.sqlite";
-    boolean check_created, isLogin;//để tránh tạo tạo 1 số cái như mapping, setTime_To_Change_Page, actionBar,event,get_SoLuong_GioHang
+    boolean check_created;
+    public static boolean isLogin;//để tránh tạo tạo 1 số cái như mapping, setTime_To_Change_Page, actionBar,event,get_SoLuong_GioHang
     //Vì khi rớt mạng mà refresh sẽ cho layout noInternet, khi người dùng có mạng r và click vào nút thử lại hoặc kéo refresh
     //thì sẽ load lại nhưng sẽ k chạy lại 1 sẽ hàm nói trên
 
@@ -373,6 +370,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
        // if (countDownTimer!=null) countDownTimer.start();
         if (txt_count!=null) txt_count.setText(String.valueOf(soluong_giohang));
+//        ThongTinNguoiDung tt=ShrPreferences.getInstance(MainActivity.this).getInfo();
+//        if (tt != null) {
+//            String oldImage = danh_sach_loai_san_pham.get(0).getHinhAnh();
+//            String oldName = danh_sach_loai_san_pham.get(0).getTenSP();
+//            String currentImage = "http://minhlc.000webhostapp.com/" + tt.getImage();//image if has change
+//            if (!oldImage.equals(currentImage) || !oldName.equals(tt.getFullName())) {
+//                danh_sach_loai_san_pham.set(0, new LoaiSP(0, tt.getFullName(), currentImage));
+//                menu_adapter.notifyDataSetChanged();
+//            }
+//        }
         super.onResume();
     }
     @Override
@@ -393,6 +400,12 @@ public class MainActivity extends AppCompatActivity {
                 danh_sach_loai_san_pham.set(0, new LoaiSP(0, tt.getFullName(), currentImage));
                 menu_adapter.notifyDataSetChanged();
             }
+
+        }
+        else{
+            String urlLogin="https://employeebenefits.com/images/login_icon.png";
+            danh_sach_loai_san_pham.set(0,new LoaiSP(0,"Đăng nhập",urlLogin));
+            menu_adapter.notifyDataSetChanged();
         }
         super.onRestart();
     }

@@ -2,6 +2,8 @@ package com.example.nhocs.demonavigation.Api;
 
 import com.example.nhocs.demonavigation.Model.Banner;
 import com.example.nhocs.demonavigation.Model.LoaiSP;
+import com.example.nhocs.demonavigation.Model.Statistic_Rating;
+import com.example.nhocs.demonavigation.Model.Review;
 import com.example.nhocs.demonavigation.Model.ThongTinKiemTra;
 import com.example.nhocs.demonavigation.Model.ThongTinNguoiDung;
 import com.example.nhocs.demonavigation.Model.ThongTinSanPham;
@@ -92,4 +94,17 @@ public interface RetrofitService {
     @POST("changePassword.php")
     Call<ResponseBody> changePass(@Field("id") int id,
                                   @Field("newPass") String newPass);
+
+    @FormUrlEncoded
+    @POST("insert_review.php")
+    Call<ResponseBody> insertReview(@Field("id_pro") int id_pro,
+                                    @Field("id_user") int id_user,
+                                    @Field("rating") int rating,
+                                    @Field("title") String title,
+                                    @Field("content") String content);
+    @GET("get_review.php")
+    Call<ArrayList<Review>> getReivew(@Query("id_pro") int id_pro);
+
+    @GET("statistic.php")
+    Call<ArrayList<Statistic_Rating>> getStatistic(@Query("id_pro") int id_pro);
 }

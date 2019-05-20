@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#3CF7F7">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:padding="10dp"
-        android:background="#3CF7F7">
+       >
         <Button
             android:id="@+id/menuPop"
             android:layout_width="24dp"
@@ -158,7 +158,6 @@
             android:layout_marginBottom="20dp"
             android:layout_marginLeft="70dp"
             android:layout_marginRight="70dp"
-            android:gravity="center"
             android:textAlignment="center"
             android:padding="14dp"
             android:text="Thay đổi"
@@ -166,7 +165,6 @@
             android:textColor="#fff"
             android:layout_below="@id/radioSex"
             />
-
     </RelativeLayout>
 
 </ScrollView>

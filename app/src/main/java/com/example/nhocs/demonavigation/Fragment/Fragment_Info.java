@@ -155,10 +155,12 @@ public class Fragment_Info extends Fragment {
                                 ((General_Info_Activity)getActivity()).addFragmentChangePass();
                                 break;
                              default:
+                                 MainActivity.isLogin=false;
                                  ShrPreferences.getInstance(getActivity()).putInfo(null);
-                                 Intent intent=new Intent(getActivity(), MainActivity.class);
-                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                 startActivity(intent);
+                                 (getActivity()).finish();
+//                                 Intent intent=new Intent(getActivity(), MainActivity.class);
+//                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                                 startActivity(intent);
                         }
                         return false;
                     }

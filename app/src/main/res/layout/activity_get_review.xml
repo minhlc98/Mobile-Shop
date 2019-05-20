@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".Activity.Get_Review"
+    android:background="@color/white">
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#5050ed"
+        app:titleTextColor="#FFFFFF"
+        app:title="Nhận xét"
+        android:id="@+id/toolbarNhanXet">
+    </android.support.v7.widget.Toolbar>
+    <ListView
+        android:layout_weight="1"
+        android:id="@+id/listReview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:divider="#9C9C9C"
+        android:dividerHeight="2px">
+    </ListView>
+    <Button
+        android:id="@+id/btnWriteReview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Viết Nhận Xét"
+        android:textAllCaps="false"
+        android:background="@color/blue"
+        android:textColor="@color/white"
+        android:layout_margin="5dp"/>
+</LinearLayout>

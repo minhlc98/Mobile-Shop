@@ -63,16 +63,19 @@ public class FragmentLogin extends Fragment {
                         }
                         else{
                             ShrPreferences.getInstance(getActivity()).putInfo(res);
-                            Intent intent=new Intent(getActivity(), MainActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(intent);
+                            MainActivity.isLogin=true;
+//                            Intent intent=new Intent(getActivity(), MainActivity.class);
+//                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                            startActivity(intent);
+                            (getActivity()).finish();
                         }
                         dialog.cancel();
                     }
 
                     @Override
                     public void onFailure(Call<ThongTinNguoiDung> call, Throwable t) {
-
+                        Toast.makeText(getActivity(), "Không thể kết nối đến máy chủ", Toast.LENGTH_SHORT).show();
+                        dialog.cancel();
                     }
                 });
             }
