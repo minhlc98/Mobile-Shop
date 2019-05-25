@@ -37,8 +37,8 @@
     if ($id_pro != ""){
         $arr=array();
         $query="select u.hinh,u.TenKH, r.danh_gia, r.tieude, r.noidung, r.thoigian
-                from nguoidung u join danhgia r on u.ID=r.ID_NguoiDung
-                where ID_SanPham=$id_pro order by r.thoigian desc" ;
+                from (select * from danhgia where ID_SanPham=$id_pro) as r join nguoidung u on u.ID=r.ID_NguoiDung
+                order by r.thoigian desc" ;
         $res=mysqli_query($connect, $query);
         while($row=mysqli_fetch_assoc($res)){
             array_push($arr, new Review(
