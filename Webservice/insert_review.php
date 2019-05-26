@@ -20,6 +20,7 @@
         else{
             echo "error";
         }
+        mysqli_close($connect);
     }
     else{
         echo "empty";

@@ -1,5 +1,5 @@
 <?php
-	require "ConnectDatabase.php";
+	include_once "ConnectDatabase.php";
 	class SanPham{
 		function SanPham($id, $tensp, $gia, $hinh, $mota, $danhgia, $slDanhGia)
 		{
@@ -34,4 +34,5 @@
 					));
 	}
 	echo json_encode($arr);
+	mysqli_close($connect);
 ?>

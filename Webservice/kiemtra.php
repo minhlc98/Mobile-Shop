@@ -17,4 +17,5 @@
 		array_push($arr, new KiemTra($row['TenSP'],$row['SoLuong'],$row['Gia']));
 	}
 	echo json_encode($arr);
+	mysqli_close($connect);
 ?>

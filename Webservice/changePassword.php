@@ -11,6 +11,7 @@
     else{
         echo "Empty";
     }
+    mysqli_close($connect);
 
 
 ?>

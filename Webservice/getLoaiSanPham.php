@@ -14,5 +14,6 @@
 	while($row=mysqli_fetch_array($res)){
 		array_push($arr, new LoaiSP($row["ID_LoaiSP"], $row["TenSanPham"], $row["HinhAnh"]));
 	}
+	mysqli_close($connect);
 	echo json_encode($arr);
 ?>

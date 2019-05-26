@@ -13,4 +13,5 @@
 		array_push($arr, new QuangCao($row['URL_QuangCao']));
 	}
 	echo json_encode($arr);
+	mysqli_close($connect);
 ?>

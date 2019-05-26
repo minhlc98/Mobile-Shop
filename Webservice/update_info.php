@@ -21,5 +21,6 @@
         else{
             echo "fail";
         }
+        mysqli_close($connect);
     }
 ?>

@@ -19,6 +19,7 @@
 		else{
 			echo "fail";
 		}
+		mysqli_close($connect);
 	}
 	else{
 		echo "empty";

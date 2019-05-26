@@ -33,4 +33,5 @@
 						);
 	}
 	echo json_encode($user);
+	mysqli_close($connect);
 ?>

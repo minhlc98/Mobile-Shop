@@ -72,7 +72,7 @@ public class ThanhToan extends AppCompatActivity {
         validation[0]="[\\p{L}\\s]+";   //Tên khách hàng
         validation[1]="\\d{9,14}";    //Điện thoại
         validation[2]="[\\p{L}\\s\\d/,\\.]+"; //Địa chỉ
-        validation[3]="\\w+@\\w+\\.[a-z]+";    //Email
+        validation[3]="[\\w\\.]+@\\w+\\.[a-z]+";    //Email
         boolean all_right=true;
         for (int i=0;i<4;++i)
         {

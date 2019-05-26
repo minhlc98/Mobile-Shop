@@ -25,4 +25,5 @@
 		array_push($arr, new SanPham($row['ID'],$row['TenSP'],$row['Gia'],$row['HinhAnh'],$row['MoTa'], $danhgia, $row['rating_count']));
 	}
 	echo json_encode($arr);
+	mysqli_close($connect);
 ?>

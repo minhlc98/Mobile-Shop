@@ -1,5 +1,5 @@
 <?php
-    include "ConnectDatabase.php";
+    include_once "ConnectDatabase.php";
     class Statistic{
         function Statistic(){
             $this->star=0;
@@ -27,5 +27,6 @@
         }
       
         echo json_encode($arr);
+        mysqli_close($connect);
     }
 ?>

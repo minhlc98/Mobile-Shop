@@ -17,6 +17,7 @@
         if( $time_difference < 1 ) { return '1 giây'; }
         $condition = array( 31104000 =>  'năm',
                     2592000          =>  'tháng',
+                    604800          =>   'tuần',
                     86400           =>  'ngày',
                     3600             =>  'giờ',
                     60               =>  'phút',
@@ -51,7 +52,9 @@
                         ));
         }
         echo json_encode($arr);
+        mysqli_close($connect);
     }
+
 
 
 
