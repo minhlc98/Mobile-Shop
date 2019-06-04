@@ -392,20 +392,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onRestart() {
         //index 0 is user name
         ThongTinNguoiDung tt=ShrPreferences.getInstance(MainActivity.this).getInfo();
-        if (tt != null) {
-            String oldImage = danh_sach_loai_san_pham.get(0).getHinhAnh();
-            String oldName = danh_sach_loai_san_pham.get(0).getTenSP();
-            String currentImage = "http://minhlc.000webhostapp.com/" + tt.getImage();//image if has change
-            if (!oldImage.equals(currentImage) || !oldName.equals(tt.getFullName())) {
-                danh_sach_loai_san_pham.set(0, new LoaiSP(0, tt.getFullName(), currentImage));
+        if (danh_sach_loai_san_pham.size()>0) {
+            if (tt != null) {
+                String oldImage = danh_sach_loai_san_pham.get(0).getHinhAnh();
+                String oldName = danh_sach_loai_san_pham.get(0).getTenSP();
+                String currentImage = "http://minhlc.000webhostapp.com/" + tt.getImage();//image if has change
+                if (!oldImage.equals(currentImage) || !oldName.equals(tt.getFullName())) {
+                    danh_sach_loai_san_pham.set(0, new LoaiSP(0, tt.getFullName(), currentImage));
+                    menu_adapter.notifyDataSetChanged();
+                }
+
+            } else {
+                String urlLogin = "https://employeebenefits.com/images/login_icon.png";
+                danh_sach_loai_san_pham.set(0, new LoaiSP(0, "Đăng nhập", urlLogin));
                 menu_adapter.notifyDataSetChanged();
             }
-
-        }
-        else{
-            String urlLogin="https://employeebenefits.com/images/login_icon.png";
-            danh_sach_loai_san_pham.set(0,new LoaiSP(0,"Đăng nhập",urlLogin));
-            menu_adapter.notifyDataSetChanged();
         }
         super.onRestart();
     }

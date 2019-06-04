@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".Activity.Write_Review">
+
     <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbarVietNhanXet"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="#5050ed"
-        app:titleTextColor="#FFFFFF"
+        android:baselineAligned="false"
         app:title="Viết Nhận Xét"
-        android:id="@+id/toolbarVietNhanXet">
-    </android.support.v7.widget.Toolbar>
+        app:titleTextColor="#FFFFFF"></android.support.v7.widget.Toolbar>
+
     <ImageView
         android:id="@+id/img_WR"
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:layout_margin="5dp"
-        />
+        android:layout_margin="5dp" />
     <!--WR là write reivew -->
     <TextView
         android:id="@+id/tvName_WR"
@@ -27,44 +28,47 @@
         android:layout_height="wrap_content"
         android:text="Điện thoại iPhone 8 Plus"
         android:textAlignment="center"
-        android:textSize="18sp"/>
+        android:textSize="18sp" />
+
     <RatingBar
         android:id="@+id/rating_WR"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:numStars="5"
         android:rating="0"
-        android:layout_gravity="center"
-        android:theme="@style/RatingBar"
         android:stepSize="1"
-        />
+        android:theme="@style/RatingBar" />
+
     <TextView
         android:id="@+id/tvNhanXetDanhGia"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text=""
-        android:textColor="@color/blue"
         android:textAlignment="center"
-        android:textSize="20sp"/>
+        android:textColor="@color/blue"
+        android:textSize="20sp" />
+
     <EditText
         android:id="@+id/edtTieuDe"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Tiêu đề (Không bắt buộc)"
         android:layout_margin="5dp"
-        />
+        android:hint="Tiêu đề (Không bắt buộc)" />
+
     <EditText
         android:id="@+id/edtNoiDung"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nội dung nhận xét. Tối thiểu 50 kí tự"
-        android:layout_margin="5dp"/>
+        android:layout_margin="5dp"
+        android:hint="Nội dung nhận xét. Tối thiểu 50 kí tự" />
+
     <Button
         android:id="@+id/btnGui"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="5dp"
         android:background="@color/blue"
-        android:textColor="@color/white"
         android:text="Gửi"
-        android:layout_margin="5dp"/>
+        android:textColor="@color/white" />
 </LinearLayout>
