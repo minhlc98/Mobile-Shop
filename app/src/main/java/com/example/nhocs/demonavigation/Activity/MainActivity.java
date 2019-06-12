@@ -46,13 +46,11 @@ import retrofit2.Callback;
 public class MainActivity extends AppCompatActivity {
 
     Toolbar toolbar;
-    NavigationView navigationView;
+    //NavigationView navigationView;
     ListView listView;
     DrawerLayout drawer;
     RecyclerView recyclerView;
     ArrayList<LoaiSP> danh_sach_loai_san_pham;
-    ArrayList<ThongTinSanPham> danh_sach_san_pham;
-    ArrayList<Banner> mang_hinh_anh;
     Menu_Adapter menu_adapter;
     SanPhamMoiNhatAdapter sanPhamAdapter;
     CountDownTimer countDownTimer;
@@ -106,12 +104,10 @@ public class MainActivity extends AppCompatActivity {
                     public void run() {
                         if (check_created) {//nếu dữ liệu đã đc tạo thì mới clear
                             viewPager.setCurrentItem(0);
-                            mang_hinh_anh.clear();
                             danh_sach_loai_san_pham.clear();
-                            danh_sach_san_pham.clear();
                             menu_adapter.notifyDataSetChanged();
-                            sanPhamAdapter.notifyDataSetChanged();
-                            adapter.notifyDataSetChanged();
+                            recyclerView.setAdapter(null);
+                            viewPager.setAdapter(null);
                             countDownTimer.cancel();
                         }
                         swipeRefreshLayout.setRefreshing(false);
@@ -307,7 +303,7 @@ public class MainActivity extends AppCompatActivity {
     }
     public void Mapping() {
         toolbar=(Toolbar) findViewById(R.id.toolbar);
-        navigationView=(NavigationView) findViewById(R.id.navigationView);
+       // navigationView=(NavigationView) findViewById(R.id.navigationView);
         listView=(ListView) findViewById(R.id.listView);
         recyclerView=findViewById(R.id.recyclerView);
         viewPager=(ViewPager) findViewById(R.id.viewPager);
@@ -315,18 +311,12 @@ public class MainActivity extends AppCompatActivity {
         dot=new ArrayList<>();
         myDot=(LinearLayout) findViewById(R.id.myDot);
         danh_sach_loai_san_pham=new ArrayList<>();
-        mang_hinh_anh=new ArrayList<>();
         menu_adapter=new Menu_Adapter(this,R.layout.menu_navigation,danh_sach_loai_san_pham);
         listView.setAdapter(menu_adapter);
-        danh_sach_san_pham=new ArrayList<>();
-        sanPhamAdapter=new SanPhamMoiNhatAdapter(this,danh_sach_san_pham,R.layout.san_pham_moi_nhat);
+        listView.setAdapter(menu_adapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(this,2));
-        recyclerView.setAdapter(sanPhamAdapter);
         database=new Database(this,dbName,null,1);
-        adapter=new ViewPagerAdapter(mang_hinh_anh,MainActivity.this);
-        viewPager.setAdapter(adapter);
-
     }
     public void actionBar() {
         setSupportActionBar(toolbar);
@@ -346,8 +336,9 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<ArrayList<Banner>> call, retrofit2.Response<ArrayList<Banner>> response) {
                 if (response.isSuccessful()){
                     myDot.removeAllViews();
+                    adapter=new ViewPagerAdapter(response.body(),MainActivity.this);
+                    viewPager.setAdapter(adapter);
                     for (int i=0;i<response.body().size();++i){
-                        mang_hinh_anh.add(response.body().get(i));
                         TextView tv=new TextView(MainActivity.this);
                         if (i==0) tv.setBackgroundResource(R.drawable.active_dot);
                         else tv.setBackgroundResource(R.drawable.dot);
@@ -356,7 +347,6 @@ public class MainActivity extends AppCompatActivity {
                         dot.add(tv);
                         myDot.addView(dot.get(i));
                     }
-                    adapter.notifyDataSetChanged();
                 }
             }
 
@@ -465,13 +455,8 @@ public class MainActivity extends AppCompatActivity {
         RetrofitClient.getInstace().getService().getSanPhamMoiNhat().enqueue(new Callback<ArrayList<ThongTinSanPham>>() {
             @Override
             public void onResponse(Call<ArrayList<ThongTinSanPham>> call, retrofit2.Response<ArrayList<ThongTinSanPham>> response) {
-                if (response.isSuccessful()){
-                    if (danh_sach_san_pham.size()>0) danh_sach_san_pham.clear();
-                    for (int i=0;i<response.body().size();++i){
-                        danh_sach_san_pham.add(response.body().get(i));
-                    }
-                    sanPhamAdapter.notifyDataSetChanged();
-                }
+                sanPhamAdapter=new SanPhamMoiNhatAdapter(MainActivity.this,response.body(),R.layout.san_pham_moi_nhat);
+                recyclerView.setAdapter(sanPhamAdapter);
             }
 
             @Override

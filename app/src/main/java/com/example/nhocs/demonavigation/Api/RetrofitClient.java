@@ -9,10 +9,10 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
-    public static RetrofitClient mInstance;
-    public static final String BaseURL="http://minhlc.000webhostapp.com/";
-    public RetrofitService service;
-    public Retrofit retrofit;
+    private static RetrofitClient mInstance;
+    private static final String BaseURL="http://minhlc.000webhostapp.com/";
+    private RetrofitService service;
+    private Retrofit retrofit;
     public RetrofitClient(){
         OkHttpClient okHttpClient=new OkHttpClient.Builder()
                                     .writeTimeout(60, TimeUnit.SECONDS)
@@ -25,6 +25,7 @@ public class RetrofitClient {
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
+        service=retrofit.create(RetrofitService.class);
     }
     public static synchronized RetrofitClient getInstace(){
         if (mInstance==null){
@@ -33,6 +34,6 @@ public class RetrofitClient {
          return mInstance;
     }
     public RetrofitService getService(){
-        return retrofit.create(RetrofitService.class);
+        return service;
     }
 }
