@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context="com.example.nhocs.demonavigation.Activity.GioHang"
-    android:weightSum="10">
+    >
     <android.support.v7.widget.Toolbar
+        app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:id="@+id/toolbarGioHang"
@@ -15,80 +15,86 @@
         app:titleTextColor="@color/white"
         app:title="Giỏ hàng">
     </android.support.v7.widget.Toolbar>
-    <LinearLayout
-        android:layout_weight="7.4"
+    <android.support.constraint.Guideline
+        android:id="@+id/line"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/toolbarGioHang"
+        app:layout_constraintGuide_percent="0.75"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Giỏ hàng của bạn đang trống"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="@id/toolbarGioHang"
+        app:layout_constraintBottom_toBottomOf="@id/line"
+        android:textAlignment="center"
+        android:id="@+id/txtNoiDung"
+        />
+    <ListView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        >
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Giỏ hàng của bạn đang trống"
-                android:textSize="20dp"
-                android:textStyle="bold"
-                android:layout_gravity="center"
-                android:id="@+id/txtNoiDung"
-                />
-            <ListView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/recyclerViewGioHang"
-                android:divider="#9C9C9C"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:dividerHeight="2px">
-            </ListView>
-
-        </FrameLayout>
-
-    </LinearLayout>
+        android:id="@+id/recyclerViewGioHang"
+        android:divider="#9C9C9C"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbarGioHang"
+        app:layout_constraintBottom_toBottomOf="@id/line"
+        app:layout_constraintVertical_weight="1"
+        android:dividerHeight="2px" />
     <View
+        app:layout_constraintTop_toBottomOf="@id/recyclerViewGioHang"
         android:layout_width="match_parent"
         android:layout_height="2px"
         android:background="@drawable/divider_line"/>
-    <LinearLayout
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="horizontal"
-        android:layout_marginTop="5dp"
+    <TextView
+        android:id="@+id/lbThanhTien"
+        app:layout_constraintTop_toTopOf="@id/line"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/txtTongTien"
+        app:layout_constraintBottom_toTopOf="@id/btnThanhToan"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintVertical_weight="1"
         android:gravity="center_vertical"
-        android:weightSum="2"
         android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp">
-        <TextView
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Thành tiền:"
-            android:textSize="20dp"
-            />
-        <TextView
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="0đ"
-            android:id="@+id/txtTongTien"
-            android:textColor="#f20"
-            android:gravity="end"
-            android:textSize="23dp"/>
-    </LinearLayout>
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="Thành tiền:"
+        android:textSize="20dp"
+        />
+    <TextView
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/line"
+        app:layout_constraintLeft_toRightOf="@id/lbThanhTien"
+        app:layout_constraintBottom_toTopOf="@id/btnThanhToan"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintVertical_weight="1"
+        android:layout_marginRight="15dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="0đ"
+        android:id="@+id/txtTongTien"
+        android:textColor="#f20"
+        android:gravity="center_vertical|end"
+        android:textSize="23dp"/>
     <Button
-        android:layout_weight="0.8"
+        app:layout_constraintVertical_weight="1"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:text="Tiến hành đặt hàng"
         android:id="@+id/btnThanhToan"
         android:background="@drawable/custom_button"
         android:textColor="#FFFFFF"
+        app:layout_constraintTop_toBottomOf="@id/lbThanhTien"
+        app:layout_constraintBottom_toTopOf="@id/btnTiepTuc"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"/>
     <Button
-        android:layout_weight="0.8"
+        app:layout_constraintVertical_weight="1"
+        app:layout_constraintTop_toBottomOf="@id/btnThanhToan"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:text="Tiếp tục mua sắm"
@@ -97,4 +103,4 @@
         android:textColor="#ffffff"
         android:layout_margin="10dp"/>
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

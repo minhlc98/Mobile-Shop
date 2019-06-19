@@ -8,16 +8,16 @@
     tools:context="com.example.nhocs.demonavigation.Activity.ThanhToan"
     android:gravity="center"
     android:background="#3d2e2e">
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
         android:background="@drawable/custome_info_screen">
         <TextView
+            app:layout_constraintTop_toTopOf="parent"
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -27,8 +27,9 @@
             android:gravity="center"
             android:textStyle="bold"
             android:layout_margin="10dp"
-            />
+        />
         <EditText
+            app:layout_constraintTop_toBottomOf="@id/textView2"
             android:id="@+id/edtTen"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -37,31 +38,31 @@
             android:textSize="18dp"
             android:text=""
             android:hint="Tên khách hàng"/>
-        <LinearLayout
-            android:layout_width="match_parent"
+        <Spinner
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:weightSum="10">
-            <Spinner
-                android:layout_weight="3"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:id="@+id/list_countryCode">
-            </Spinner>
-            <EditText
-                android:layout_weight="7"
-                android:id="@+id/edtDT"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="number"
-                android:text=""
-                android:textSize="18dp"
-                android:hint="Điện thoại"
-                />
-        </LinearLayout>
-
-
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edtTen"
+            app:layout_constraintRight_toLeftOf="@id/edtDT"
+            app:layout_constraintHorizontal_weight="3"
+            android:textSize="18dp"
+            android:id="@+id/list_countryCode">
+        </Spinner>
         <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edtTen"
+            app:layout_constraintLeft_toRightOf="@id/list_countryCode"
+            app:layout_constraintHorizontal_weight="7"
+            android:id="@+id/edtDT"
+            android:ems="10"
+            android:inputType="number"
+            android:text=""
+            android:textSize="18dp"
+            android:hint="Điện thoại" />
+        <EditText
+            app:layout_constraintTop_toBottomOf="@id/edtDT"
             android:id="@+id/edtDiaChi"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -71,6 +72,7 @@
             android:textSize="18dp"
             android:hint="Địa chỉ" />
         <EditText
+            app:layout_constraintTop_toBottomOf="@id/edtDiaChi"
             android:id="@+id/edtEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -78,36 +80,39 @@
             android:inputType="textPersonName"
             android:text=""
             android:textSize="18dp"
-            android:hint="Email. Ex: abc@gmail.com"
-            />
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
+            android:hint="Email. Ex: abc@gmail.com" />
+        <Button
+            app:layout_constraintTop_toBottomOf="@id/edtEmail"
+            app:layout_constraintRight_toLeftOf="@id/btnHuy"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_weight="1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="10dp">
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/btnXacNhan"
-                android:text="Xác nhận"
-                android:textSize="18dp"
-                android:textAllCaps="false"
-                android:textStyle="bold"
-                android:layout_marginRight="30dp"
-                />
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/btnHuy"
-                android:text="Hủy"
-                android:textAllCaps="false"
-                android:textStyle="bold"
-                android:textSize="18dp"
-                android:layout_marginLeft="30dp"
-                />
-        </LinearLayout>
-    </LinearLayout>
+            android:id="@+id/btnXacNhan"
+            android:text="Xác nhận"
+            android:textSize="18dp"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="5dp"
+        />
+        <Button
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toRightOf="@id/btnXacNhan"
+            app:layout_constraintTop_toBottomOf="@id/edtEmail"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnHuy"
+            android:text="Hủy"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:textSize="18dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginBottom="5dp"
+        />
+    </android.support.constraint.ConstraintLayout>
 
 </LinearLayout>
