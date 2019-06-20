@@ -43,6 +43,6 @@ public class ThongTin extends AppCompatActivity implements OnMapReadyCallback{
         mMap.moveCamera(CameraUpdateFactory.newLatLng(TGDD1));
         mMap.addMarker(new MarkerOptions().position(TGDD2).title("270B Lý Thường Kiệt"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(TGDD2));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo( 13.0f ));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo( 11.5f ));
     }
 }
