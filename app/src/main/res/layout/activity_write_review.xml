@@ -7,14 +7,14 @@
     android:orientation="vertical"
     tools:context=".Activity.Write_Review">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbarVietNhanXet"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="#5050ed"
         android:baselineAligned="false"
         app:title="Viết Nhận Xét"
-        app:titleTextColor="#FFFFFF"></android.support.v7.widget.Toolbar>
+        app:titleTextColor="#FFFFFF"></androidx.appcompat.widget.Toolbar>
 
     <ImageView
         android:id="@+id/img_WR"

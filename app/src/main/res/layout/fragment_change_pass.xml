@@ -53,13 +53,6 @@
         android:text="cập nhật"
         android:textColor="@color/white"
         android:layout_margin="10dp"/>
-    <!--<Button-->
-        <!--android:layout_margin="10dp"-->
-        <!--android:id="@+id/btnCancel"-->
-        <!--android:layout_width="300dp"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:background="@color/blue"-->
-        <!--android:text="Hủy"-->
-        <!--android:textColor="@color/white"/>-->
+
 
 </RelativeLayout>

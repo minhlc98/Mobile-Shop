@@ -12,7 +12,7 @@
         android:src="@drawable/img_shop_online"
         android:scaleType="fitXY"
         />
-        <android.support.design.widget.TabLayout
+        <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -20,58 +20,11 @@
             app:tabMode="fixed"
             app:tabSelectedTextColor="@color/blue"
             app:tabTextColor="@color/black">
-        </android.support.design.widget.TabLayout>
-        <android.support.v4.view.ViewPager
+        </com.google.android.material.tabs.TabLayout>
+        <androidx.viewpager.widget.ViewPager
             android:id="@+id/vp_Login"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        </android.support.v4.view.ViewPager>
-
-    <!--<FrameLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:id="@+id/title">-->
-        <!--<ImageView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="250dp"-->
-            <!--android:src="@drawable/img_shop_online"-->
-            <!--android:scaleType="fitXY"-->
-            <!--/>-->
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:layout_gravity="center|bottom"-->
-            <!--android:background="#00FFFF">-->
-            <!--<TextView-->
-                <!--android:layout_weight="1"-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="Đăng nhập"-->
-                <!--android:id="@+id/tvSignin"-->
-                <!--android:gravity="center"-->
-                <!--android:textSize="18sp"-->
-                <!--android:textStyle="bold"-->
-                <!--android:padding="5dp"/>-->
-            <!--<TextView-->
-                <!--android:layout_weight="1"-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="Đăng ký"-->
-                <!--android:id="@+id/tvSignup"-->
-                <!--android:gravity="center"-->
-                <!--android:textSize="18sp"-->
-                <!--android:textStyle="bold"-->
-                <!--android:padding="5dp"/>-->
-        <!--</LinearLayout>-->
-    <!--</FrameLayout>-->
-    <!--<FrameLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:id="@+id/layout_SignIn_Up"-->
-        <!--android:orientation="vertical">-->
-    <!--</FrameLayout>-->
-
-
+        </androidx.viewpager.widget.ViewPager>
 </LinearLayout>

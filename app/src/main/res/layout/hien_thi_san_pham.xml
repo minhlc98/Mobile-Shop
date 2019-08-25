@@ -1,63 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:background="#FFFFFF"
-        android:layout_margin="3dp">
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:id="@+id/imageSanPham"
-            android:layout_margin="10dp"/>
-       <LinearLayout
-           android:layout_width="match_parent"
-           android:layout_height="match_parent"
-           android:orientation="vertical">
-           <TextView
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:text="Điện thoại SamSung Galaxy J7 Prime"
-               android:textStyle="bold"
-               android:textSize="18dp"
-               android:id="@+id/textViewTenSP"
-               android:textColor="#0000EE"
-               android:layout_margin="5dp"/>
-           <TextView
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:text="Giá 4.990.000đ"
-               android:layout_margin="5dp"
-               android:textStyle="bold"
-               android:textSize="18dp"
-               android:textColor="#EE0000"
-               android:id="@+id/textViewGia"
-               />
-           <TextView
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_margin="5dp"
-               android:text="Mô tả"
-               android:textSize="18dp"
-               android:maxLines="1"
-               android:id="@+id/textViewMoTa"
-               android:ellipsize="end"
-               />
-           <RatingBar
-               android:id="@+id/rating_product"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:numStars="5"
-               android:rating="4"
-               android:layout_margin="5dp"
-               android:theme="@style/RatingBar"
-               style="?attr/ratingBarStyleSmall"/>
-       </LinearLayout>
-    </LinearLayout>
-
-</LinearLayout>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/imageSanPham"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/textViewTenSP"
+        />
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Điện thoại SamSung Galaxy J7 Prime"
+        android:textStyle="bold"
+        android:textSize="18dp"
+        android:id="@+id/textViewTenSP"
+        android:textColor="@color/blue"
+        android:layout_margin="5dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/imageSanPham"
+        />
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Giá 4.990.000đ"
+        android:layout_margin="5dp"
+        android:textStyle="bold"
+        android:textSize="18dp"
+        android:textColor="#EE0000"
+        android:id="@+id/textViewGia"
+        app:layout_constraintTop_toBottomOf="@id/textViewTenSP"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/imageSanPham"
+    />
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="Mô tả"
+        android:textSize="18dp"
+        android:maxLines="1"
+        android:id="@+id/textViewMoTa"
+        android:ellipsize="end"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewGia"
+        app:layout_constraintLeft_toRightOf="@id/imageSanPham"
+    />
+    <RatingBar
+        android:id="@+id/rating_product"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numStars="5"
+        android:rating="4"
+        android:layout_margin="5dp"
+        android:theme="@style/RatingBar"
+        style="?attr/ratingBarStyleSmall"
+        app:layout_constraintTop_toBottomOf="@id/textViewMoTa"
+        app:layout_constraintLeft_toRightOf="@id/imageSanPham"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>

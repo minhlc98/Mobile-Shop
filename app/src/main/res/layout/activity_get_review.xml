@@ -7,14 +7,14 @@
     android:orientation="vertical"
     tools:context=".Activity.Get_Review"
     android:background="@color/white">
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="#5050ed"
         app:titleTextColor="#FFFFFF"
         app:title="Nhận xét"
         android:id="@+id/toolbarNhanXet">
-    </android.support.v7.widget.Toolbar>
+    </androidx.appcompat.widget.Toolbar>
     <ListView
         android:layout_weight="1"
         android:id="@+id/listReview"

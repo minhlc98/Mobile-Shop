@@ -2,14 +2,15 @@ package com.example.nhocs.demonavigation.Adapter;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import com.bumptech.glide.request.RequestOptions;
+
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.nhocs.demonavigation.Activity.ChiTietSanPham;
 import com.example.nhocs.demonavigation.Model.GlideApp;
 import com.example.nhocs.demonavigation.Model.ThongTinSanPham;

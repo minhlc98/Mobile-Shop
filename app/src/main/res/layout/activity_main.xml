@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -51,7 +51,7 @@
                 android:id="@+id/btnThuLai"/>
             </LinearLayout>
 
-        <android.support.v4.widget.DrawerLayout
+        <androidx.drawerlayout.widget.DrawerLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/drawer">
@@ -61,7 +61,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 >
-                <android.support.v7.widget.Toolbar
+                <androidx.appcompat.widget.Toolbar
                     xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
@@ -90,15 +90,15 @@
                         android:paddingLeft="5dp"
                         android:drawableLeft="@drawable/ic_search_24dp"/>
 
-                </android.support.v7.widget.Toolbar>
+                </androidx.appcompat.widget.Toolbar>
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="200dp">
-                    <android.support.v4.view.ViewPager
+                    <androidx.viewpager.widget.ViewPager
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
                         android:id="@+id/viewPager">
-                    </android.support.v4.view.ViewPager>
+                    </androidx.viewpager.widget.ViewPager>
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -123,14 +123,14 @@
                         android:layout_marginLeft="5dp"
                         android:textStyle="bold"
                         />
-                    <android.support.v7.widget.RecyclerView
+                    <androidx.recyclerview.widget.RecyclerView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:id="@+id/recyclerView">
-                    </android.support.v7.widget.RecyclerView>
+                    </androidx.recyclerview.widget.RecyclerView>
                 </LinearLayout>
             </LinearLayout>
-            <android.support.design.widget.NavigationView
+            <com.google.android.material.navigation.NavigationView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="start"
@@ -141,8 +141,8 @@
                     android:id="@+id/listView"
                     android:background="#CEECF5">
                 </ListView>
-            </android.support.design.widget.NavigationView>
-        </android.support.v4.widget.DrawerLayout>
+            </com.google.android.material.navigation.NavigationView>
+        </androidx.drawerlayout.widget.DrawerLayout>
 
     </FrameLayout>
-</android.support.v4.widget.SwipeRefreshLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

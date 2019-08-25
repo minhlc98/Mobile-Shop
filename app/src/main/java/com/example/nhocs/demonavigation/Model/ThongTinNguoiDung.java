@@ -100,7 +100,16 @@ public class ThongTinNguoiDung implements Serializable {
         this.address = address;
         this.email = email;
     }
-
+    public ThongTinNguoiDung(String fullName, String account, String pass, String address, String email, int ID_countryCode, String phoneNumber, boolean sex){
+        this.acc = account;
+        this.pass = pass;
+        this.sex = sex;
+        this.ID_countryCode = ID_countryCode;
+        this.fullName = fullName;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.email = email;
+    }
 
     public int getID_countryCode() {
         return ID_countryCode;

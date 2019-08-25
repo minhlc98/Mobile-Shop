@@ -3,16 +3,19 @@ package com.example.nhocs.demonavigation.Activity;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import com.example.nhocs.demonavigation.Adapter.GioHangAdapter;
-import com.example.nhocs.demonavigation.R;
 import com.example.nhocs.demonavigation.Model.ThongTinGioHang;
+import com.example.nhocs.demonavigation.R;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -26,6 +29,7 @@ public class GioHang extends AppCompatActivity {
     static ArrayList<ThongTinGioHang> mang_gio_hang;
     ListView recyclerViewGioHang;
     GioHangAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,14 +42,15 @@ public class GioHang extends AppCompatActivity {
     @Override
     protected void onResume() {
         getGioHang();
-        toolbarGioHang.setTitle(String.format("Giỏ hàng (%d)",MainActivity.soluong_giohang));
+        toolbarGioHang.setTitle(String.format("Giỏ hàng (%d)", MainActivity.soluong_giohang));
         super.onResume();
     }
+
     public void Event() {
         btnTiepTuc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(GioHang.this, MainActivity.class);
+                Intent intent = new Intent(GioHang.this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }
@@ -53,13 +58,14 @@ public class GioHang extends AppCompatActivity {
         btnThanhToan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mang_gio_hang.size()>0) {
+                if (mang_gio_hang.size() > 0) {
                     Intent intent = new Intent(GioHang.this, ThanhToan.class);
                     startActivity(intent);
                 }
             }
         });
     }
+
     @Override
     protected void onPause() {
         if (GioHangAdapter.check_if_has_change) {
@@ -72,24 +78,27 @@ public class GioHang extends AppCompatActivity {
         }
         super.onPause();
     }
+
     @Override
     protected void onStop() {
-        GioHangAdapter.check_if_has_change=false;
+        GioHangAdapter.check_if_has_change = false;
         super.onStop();
     }
+
     @Override
     protected void onDestroy() {
         //release: giải phóng biến static
-        mang_gio_hang=null;
-        toolbarGioHang=null;
-        txtNoiDung=null;
-        txtTongTien=null;
+        mang_gio_hang = null;
+        toolbarGioHang = null;
+        txtNoiDung = null;
+        txtTongTien = null;
         super.onDestroy();
     }
+
     public void actionBar() {
         setSupportActionBar(toolbarGioHang);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        String title=String.format("Giỏ hàng (%d)",MainActivity.soluong_giohang);
+        String title = String.format("Giỏ hàng (%d)", MainActivity.soluong_giohang);
         toolbarGioHang.setTitle(title);
         toolbarGioHang.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
         toolbarGioHang.setNavigationOnClickListener(new View.OnClickListener() {
@@ -99,42 +108,41 @@ public class GioHang extends AppCompatActivity {
             }
         });
     }
+
     public void Mapping() {
-        txtNoiDung=(TextView) findViewById(R.id.txtNoiDung);
-        toolbarGioHang=(Toolbar) findViewById(R.id.toolbarGioHang);
-        recyclerViewGioHang=(ListView) findViewById(R.id.recyclerViewGioHang);
-        txtTongTien=(TextView) findViewById(R.id.txtTongTien);
-        btnThanhToan=(Button) findViewById(R.id.btnThanhToan);
-        btnTiepTuc=(Button) findViewById(R.id.btnTiepTuc);
-        mang_gio_hang=new ArrayList<>();
-        adapter=new GioHangAdapter(this,mang_gio_hang,R.layout.layout_gio_hang);
+        txtNoiDung = findViewById(R.id.txtNoiDung);
+        toolbarGioHang = findViewById(R.id.toolbarGioHang);
+        recyclerViewGioHang = findViewById(R.id.recyclerViewGioHang);
+        txtTongTien = findViewById(R.id.txtTongTien);
+        btnThanhToan = findViewById(R.id.btnThanhToan);
+        btnTiepTuc = findViewById(R.id.btnTiepTuc);
+        mang_gio_hang = new ArrayList<>();
+        adapter = new GioHangAdapter(this, mang_gio_hang, R.layout.layout_gio_hang);
         recyclerViewGioHang.setAdapter(adapter);
     }
+
     public void getGioHang() {
-        TongTien=0;
+        TongTien = 0;
         mang_gio_hang.clear();
-        Cursor cursor=MainActivity.database.getData("Select * from GIOHANG");
-        if (cursor.getCount()!=0)
-        {
+        Cursor cursor = MainActivity.database.getData("Select * from GIOHANG");
+        if (cursor.getCount() != 0) {
             txtNoiDung.setVisibility(View.INVISIBLE);
-            while(cursor.moveToNext())
-            {
-                ThongTinGioHang tt=new ThongTinGioHang(
+            while (cursor.moveToNext()) {
+                ThongTinGioHang tt = new ThongTinGioHang(
                         cursor.getInt(1),
                         cursor.getInt(3),
                         cursor.getInt(5),
                         cursor.getString(2),
                         cursor.getString(4));
-                TongTien+=tt.getGia()*tt.getSoLuong();
+                TongTien += tt.getGia() * tt.getSoLuong();
                 mang_gio_hang.add(tt);
             }
 
-        }
-        else{
+        } else {
             txtNoiDung.setVisibility(View.VISIBLE);
         }
         adapter.notifyDataSetChanged();
-        DecimalFormat decimalFormat=new DecimalFormat("###,###,###");
-        txtTongTien.setText(decimalFormat.format(TongTien)+" đ");
+        DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
+        txtTongTien.setText(decimalFormat.format(TongTien) + " đ");
     }
 }

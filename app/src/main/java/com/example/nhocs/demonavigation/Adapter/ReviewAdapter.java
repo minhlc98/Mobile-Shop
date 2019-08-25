@@ -22,8 +22,8 @@ public class ReviewAdapter extends BaseAdapter {
         this.context = context;
     }
 
-    ArrayList<Review> list;
-    Context context;
+    private ArrayList<Review> list;
+    private Context context;
 
     @Override
     public int getCount() {

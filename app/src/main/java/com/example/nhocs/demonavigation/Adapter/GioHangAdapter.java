@@ -10,16 +10,18 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.example.nhocs.demonavigation.Activity.GioHang;
 import com.example.nhocs.demonavigation.Activity.MainActivity;
 import com.example.nhocs.demonavigation.Model.GlideApp;
 import com.example.nhocs.demonavigation.Model.ThongTinGioHang;
 import com.example.nhocs.demonavigation.R;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class GioHangAdapter extends BaseAdapter {
-    Activity context;
+    private Activity context;
 
     public GioHangAdapter(Activity context, ArrayList<ThongTinGioHang> arrayList, int layout_id) {
         this.context = context;
@@ -28,8 +30,9 @@ public class GioHangAdapter extends BaseAdapter {
     }
 
     public static boolean check_if_has_change;
-    ArrayList<ThongTinGioHang> arrayList;
-    int layout_id;
+    private ArrayList<ThongTinGioHang> arrayList;
+    private int layout_id;
+
     @Override
     public int getCount() {
         return arrayList.size();
@@ -48,45 +51,44 @@ public class GioHangAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         final ViewHolder viewHolder;
-        if (convertView==null){
-            LayoutInflater inflater=context.getLayoutInflater();
-            convertView=inflater.inflate(layout_id,null);
-            viewHolder=new ViewHolder();
-            viewHolder.imageViewGioHang=(ImageView) convertView.findViewById(R.id.imageViewGioHang);
-            viewHolder.txtTenSPGioHang=(TextView) convertView.findViewById(R.id.txtTenSPGioHang);
-            viewHolder.txtGiaGioHang=(TextView) convertView.findViewById(R.id.txtGiaGioHang);
-            viewHolder.txtSoLuong=(TextView) convertView.findViewById(R.id.txtSoLuongGioHang);
-            viewHolder.btnTru=(Button) convertView.findViewById(R.id.btnTru);
-            viewHolder.btnCong=(Button) convertView.findViewById(R.id.btnCong);
-            viewHolder.delete=(ImageView) convertView.findViewById(R.id.delete);
+        if (convertView == null) {
+            LayoutInflater inflater = context.getLayoutInflater();
+            convertView = inflater.inflate(layout_id, null);
+            viewHolder = new ViewHolder();
+            viewHolder.imageViewGioHang = convertView.findViewById(R.id.imageViewGioHang);
+            viewHolder.txtTenSPGioHang = convertView.findViewById(R.id.txtTenSPGioHang);
+            viewHolder.txtGiaGioHang = convertView.findViewById(R.id.txtGiaGioHang);
+            viewHolder.txtSoLuong = convertView.findViewById(R.id.txtSoLuongGioHang);
+            viewHolder.btnTru = convertView.findViewById(R.id.btnTru);
+            viewHolder.btnCong = convertView.findViewById(R.id.btnCong);
+            viewHolder.delete = convertView.findViewById(R.id.delete);
             convertView.setTag(viewHolder);
-        }
-        else{
-            viewHolder=(ViewHolder) convertView.getTag();
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
         }
         viewHolder.txtTenSPGioHang.setText(arrayList.get(position).getTenSP());
-        DecimalFormat decimalFormat=new DecimalFormat("###,###,###");
-        viewHolder.txtGiaGioHang.setText("Giá "+decimalFormat.format(arrayList.get(position).getGia())+" đ");
+        DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
+        viewHolder.txtGiaGioHang.setText("Giá " + decimalFormat.format(arrayList.get(position).getGia()) + " đ");
         viewHolder.txtSoLuong.setText(String.valueOf(arrayList.get(position).getSoLuong()));
         viewHolder.btnCong.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                check_if_has_change=true;
-                GioHang.TongTien+=arrayList.get(position).getGia();
-                DecimalFormat decimalFormat=new DecimalFormat("###,###,###");
-                GioHang.txtTongTien.setText(decimalFormat.format(GioHang.TongTien)+" đ");
-                arrayList.get(position).setSoLuong(arrayList.get(position).getSoLuong()+1);
+                check_if_has_change = true;
+                GioHang.TongTien += arrayList.get(position).getGia();
+                DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
+                GioHang.txtTongTien.setText(decimalFormat.format(GioHang.TongTien) + " đ");
+                arrayList.get(position).setSoLuong(arrayList.get(position).getSoLuong() + 1);
                 viewHolder.txtSoLuong.setText(String.valueOf(arrayList.get(position).getSoLuong()));
             }
         });
         viewHolder.btnTru.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (arrayList.get(position).getSoLuong()>1) {
-                    check_if_has_change=true;
+                if (arrayList.get(position).getSoLuong() > 1) {
+                    check_if_has_change = true;
                     GioHang.TongTien -= arrayList.get(position).getGia();
-                    DecimalFormat decimalFormat=new DecimalFormat("###,###,###");
-                    GioHang.txtTongTien.setText(decimalFormat.format(GioHang.TongTien)+" đ");
+                    DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
+                    GioHang.txtTongTien.setText(decimalFormat.format(GioHang.TongTien) + " đ");
                     arrayList.get(position).setSoLuong(arrayList.get(position).getSoLuong() - 1);
                     viewHolder.txtSoLuong.setText(String.valueOf(arrayList.get(position).getSoLuong()));
                 }
@@ -101,24 +103,26 @@ public class GioHangAdapter extends BaseAdapter {
         GlideApp.with(context).load(arrayList.get(position).getUrlHinh()).placeholder(R.drawable.no_image).into(viewHolder.imageViewGioHang);
         return convertView;
     }
+
     public void Delete_Item(final int position) {
-        final AlertDialog.Builder alert=new AlertDialog.Builder(context);
+        final AlertDialog.Builder alert = new AlertDialog.Builder(context);
         alert.setCancelable(false);
         alert.setTitle("Thông báo");
-        alert.setMessage("Bạn có muốn xóa "+arrayList.get(position).getTenSP()+" ra khỏi giỏ hàng không?");
+        alert.setMessage("Bạn có muốn xóa " + arrayList.get(position).getTenSP() + " ra khỏi giỏ hàng không?");
         alert.setPositiveButton("Có", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                MainActivity.database.Query("Delete from GIOHANG where id="+arrayList.get(position).getID());
-                GioHang.TongTien-=arrayList.get(position).getSoLuong()*arrayList.get(position).getGia();
-                DecimalFormat decimalFormat=new DecimalFormat("###,###,###");
-                GioHang.txtTongTien.setText(decimalFormat.format(GioHang.TongTien)+" đ");
+                MainActivity.database.Query("Delete from GIOHANG where id=" + arrayList.get(position).getID());
+                GioHang.TongTien -= arrayList.get(position).getSoLuong() * arrayList.get(position).getGia();
+                DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
+                GioHang.txtTongTien.setText(decimalFormat.format(GioHang.TongTien) + " đ");
                 arrayList.remove(position);
                 notifyDataSetChanged();
                 dialog.cancel();
                 MainActivity.soluong_giohang--;
-                GioHang.toolbarGioHang.setTitle(String.format("Giỏ hàng (%d)",MainActivity.soluong_giohang));
-                if (MainActivity.soluong_giohang==0) GioHang.txtNoiDung.setVisibility(View.VISIBLE);
+                GioHang.toolbarGioHang.setTitle(String.format("Giỏ hàng (%d)", MainActivity.soluong_giohang));
+                if (MainActivity.soluong_giohang == 0)
+                    GioHang.txtNoiDung.setVisibility(View.VISIBLE);
             }
         });
         alert.setNegativeButton("Không", new DialogInterface.OnClickListener() {
@@ -130,6 +134,7 @@ public class GioHangAdapter extends BaseAdapter {
         AlertDialog alertDialog = alert.create();
         alertDialog.show();
     }
+
     class ViewHolder {
         ImageView imageViewGioHang;
         TextView txtTenSPGioHang, txtGiaGioHang, txtSoLuong;

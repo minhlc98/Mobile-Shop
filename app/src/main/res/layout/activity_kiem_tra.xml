@@ -7,14 +7,14 @@
     android:orientation="vertical"
     tools:context="com.example.nhocs.demonavigation.Activity.KiemTra"
     android:weightSum="10">
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="#5050ed"
         app:titleTextColor="#FFFFFF"
         app:title="Kiểm tra"
         android:id="@+id/toolbarKiemTra">
-    </android.support.v7.widget.Toolbar>
+    </androidx.appcompat.widget.Toolbar>
     <LinearLayout
         android:layout_weight="4.2"
         android:layout_width="match_parent"
@@ -31,6 +31,7 @@
             android:textColorHint="#BEBEBE"
             android:inputType="number"
             android:textSize="20dp"
+            android:padding="8dp"
             android:textColor="@color/black"
             android:background="@color/white"
             android:drawableLeft="@drawable/ic_keyboard_black_24dp"
@@ -43,6 +44,7 @@
             android:textColor="@color/black"
             android:textSize="20dp"
             android:id="@+id/edtTenKH"
+            android:padding="8dp"
             android:background="@color/white"
             android:drawableLeft="@drawable/ic_person"
             android:layout_margin="5dp"/>
