@@ -89,31 +89,7 @@ public class Fragment_ChangePass extends Fragment {
 
                                     }
                                 });
-//                                .enqueue(new Callback<ResponseBody>() {
-//                            @Override
-//                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-//                                try {
-//                                    String res = response.body().string();
-//                                    if (res.equals("success")) {
-//                                        Toast.makeText(getActivity(), "Thay đổi thành công", Toast.LENGTH_LONG).show();
-//                                        //Cập nhật lại mật khẩu
-//                                        updateInfo(newPass_hashed);
-//                                        //Exit
-//                                        ((General_Info_Activity) getActivity()).removeFragmentChangePass();
-//                                    } else {
-//                                        Toast.makeText(getActivity(), "Lỗi kết nối", Toast.LENGTH_LONG).show();
-//                                    }
-//                                    dialog.cancel();
-//                                } catch (IOException e) {
-//                                    e.printStackTrace();
-//                                }
-//                            }
-//
-//                            @Override
-//                            public void onFailure(Call<ResponseBody> call, Throwable t) {
-//
-//                            }
-//                        });
+
                     } else {
                         edtConfirm.setError("Mật khẩu không khớp");
                     }

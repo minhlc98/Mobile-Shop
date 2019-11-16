@@ -39,6 +39,7 @@ import com.example.nhocs.demonavigation.Model.ThongTinNguoiDung;
 import com.example.nhocs.demonavigation.R;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Objects;
 
 import io.reactivex.SingleObserver;
@@ -48,6 +49,7 @@ import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 
 public class Fragment_Info extends Fragment {
     private EditText edtName, edtAddr, edtEmail, edtPhone;
@@ -107,7 +109,6 @@ public class Fragment_Info extends Fragment {
                 final ThongTinNguoiDung tt = ShrPreferences.getInstance(getActivity()).getInfo();
                 final Dialog dialog = new Dialog(Objects.requireNonNull(getActivity()));
                 if (isChangeImage) {
-
                     dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                     dialog.setCanceledOnTouchOutside(false);
                     dialog.setContentView(R.layout.layout_loading);
@@ -123,20 +124,27 @@ public class Fragment_Info extends Fragment {
                             .uploadPhoto(body)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(new SingleObserver<String>() {
+                            .subscribe(new SingleObserver<ResponseBody>() {
                                 @Override
                                 public void onSubscribe(Disposable d) {
 
                                 }
 
                                 @Override
-                                public void onSuccess(String newImg) {
-                                    update_info(newImg, tt.getImage(), dialog);
+                                public void onSuccess(ResponseBody newImg) {
+                                    try {
+                                        update_info(newImg.string(), tt.getImage(), dialog);
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+
                                 }
 
                                 @Override
                                 public void onError(Throwable e) {
+                                    Log.d("Main10",e.getMessage());
                                     Toast.makeText(getActivity(), "Không có kết nối", Toast.LENGTH_LONG).show();
+                                    dialog.cancel();
                                 }
                             });
                 } else {
@@ -213,6 +221,7 @@ public class Fragment_Info extends Fragment {
         String path = null;
         String[] proj = {MediaStore.MediaColumns.DATA};
         Cursor cursor = Objects.requireNonNull(getActivity()).getContentResolver().query(contentUri, proj, null, null, null);
+        assert cursor != null;
         if (cursor.moveToFirst()) {
             int column_index = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
             path = cursor.getString(column_index);
@@ -233,68 +242,44 @@ public class Fragment_Info extends Fragment {
                 .update_info(name, address, email, position, phone, sex, oldImage, newImage, tt.getID())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleObserver<String>() {
+                .subscribe(new SingleObserver<ResponseBody>() {
                     @Override
                     public void onSubscribe(Disposable d) {
 
                     }
 
                     @Override
-                    public void onSuccess(String res) {
-                        if (res.equals("success")) {
-                            tt.setImage(newImage);
-                            tt.setFullName(name);
-                            tt.setAddress(address);
-                            tt.setEmail(email);
-                            tt.setID_countryCode(position);
-                            tt.setPhoneNumber(phone);
-                            if (sex == 1) tt.setSex(true);
-                            else tt.setSex(false);
-                            ShrPreferences.getInstance(getActivity()).putInfo(tt);
-                            isChangeImage = false;
-                            dialog.cancel();
-                            Toast.makeText(getActivity(), "Cập nhật thành công", Toast.LENGTH_LONG).show();
-                        } else {
-                            Toast.makeText(getActivity(), "Không có kết nối", Toast.LENGTH_LONG).show();
+                    public void onSuccess(ResponseBody res) {
+                        try {
+                            String respone=res.string();
+                            if (respone.equals("success")) {
+                                tt.setImage(newImage);
+                                tt.setFullName(name);
+                                tt.setAddress(address);
+                                tt.setEmail(email);
+                                tt.setID_countryCode(position);
+                                tt.setPhoneNumber(phone);
+                                if (sex == 1) tt.setSex(true);
+                                else tt.setSex(false);
+                                ShrPreferences.getInstance(getActivity()).putInfo(tt);
+                                isChangeImage = false;
+                                dialog.cancel();
+                                Toast.makeText(getActivity(), "Cập nhật thành công", Toast.LENGTH_LONG).show();
+                            } else {
+
+                                Toast.makeText(getActivity(), "Không có kết nối", Toast.LENGTH_LONG).show();
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         Log.d("Main10", e.getMessage());
-                        Toast.makeText(getActivity(), "Không có kết nối", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), "Không có kết nối2", Toast.LENGTH_LONG).show();
                     }
                 });
-//                .enqueue(new Callback<ResponseBody>() {
-//            @Override
-//            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-//                try {
-//                    String res = response.body().string();
-//                    if (res.equals("success")) {
-//                        tt.setImage(newImage);
-//                        tt.setFullName(name);
-//                        tt.setAddress(address);
-//                        tt.setEmail(email);
-//                        tt.setID_countryCode(position);
-//                        tt.setPhoneNumber(phone);
-//                        if (sex == 1) tt.setSex(true);
-//                        else tt.setSex(false);
-//                        ShrPreferences.getInstance(getActivity()).putInfo(tt);
-//                        isChangeImage = false;
-//                        dialog.cancel();
-//                        Toast.makeText(getActivity(), "Cập nhật thành công", Toast.LENGTH_LONG).show();
-//                    } else {
-//                        Toast.makeText(getActivity(), "Không có kết nối", Toast.LENGTH_LONG).show();
-//                    }
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ResponseBody> call, Throwable t) {
-//                Toast.makeText(getActivity(), "Không có kết nối", Toast.LENGTH_LONG).show();
-//            }
-//        });
+
     }
 }

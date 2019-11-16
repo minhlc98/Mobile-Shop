@@ -153,28 +153,6 @@ public class Fragment_SignUp extends Fragment {
                         Toast.makeText(getActivity(), "Không có kết nối", Toast.LENGTH_LONG).show();
                     }
                 });
-//                .enqueue(new Callback<ResponseBody>() {
-//            @Override
-//            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-//                try {
-//                    String result = response.body().string();
-//                    if (result.equals("success")) {
-//                        dialog.cancel();
-//                        Toast.makeText(getActivity(), "Đăng ký thành công", Toast.LENGTH_LONG).show();
-//                        fragLogin();
-//                    } else {
-//                        Toast.makeText(getContext(), result, Toast.LENGTH_SHORT).show();
-//                    }
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ResponseBody> call, Throwable t) {
-//                Toast.makeText(getActivity(), "Không có kết nối", Toast.LENGTH_LONG).show();
-//            }
-//        });
 
     }
 

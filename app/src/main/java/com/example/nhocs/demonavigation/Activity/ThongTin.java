@@ -15,6 +15,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.Objects;
+
 public class ThongTin extends AppCompatActivity implements OnMapReadyCallback {
     Toolbar toolbarThongTin;
 
@@ -26,7 +28,7 @@ public class ThongTin extends AppCompatActivity implements OnMapReadyCallback {
         mapFragment.getMapAsync(this);
         toolbarThongTin = findViewById(R.id.toolbarThongTin);
         setSupportActionBar(toolbarThongTin);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         toolbarThongTin.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
         toolbarThongTin.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

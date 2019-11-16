@@ -41,15 +41,18 @@ import com.example.nhocs.demonavigation.Ulti.Database;
 import com.example.nhocs.demonavigation.Ulti.NetworkManager;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
 
     androidx.appcompat.widget.Toolbar toolbar;
+
     //NavigationView navigationView;
     ListView listView;
     DrawerLayout drawer;
@@ -77,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
     public static boolean isLogin;//để tránh tạo tạo 1 số cái như mapping, setTime_To_Change_Page, actionBar,event,get_SoLuong_GioHang
     //Vì khi rớt mạng mà refresh sẽ cho layout noInternet, khi người dùng có mạng r và click vào nút thử lại hoặc kéo refresh
     //thì sẽ load lại nhưng sẽ k chạy lại 1 sẽ hàm nói trên
+    CompositeDisposable mCompositeDisposable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -331,11 +335,12 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         database = new Database(this, dbName, null, 1);
+        mCompositeDisposable = new CompositeDisposable();
     }
 
     public void actionBar() {
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationIcon(R.drawable.ic_menu);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -355,7 +360,7 @@ public class MainActivity extends AppCompatActivity {
                 .subscribe(new SingleObserver<ArrayList<Banner>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-
+                        mCompositeDisposable.add(d);
                     }
 
                     @Override
@@ -379,46 +384,12 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "Không có kết nối", Toast.LENGTH_LONG).show();
                     }
                 });
-//        RetrofitClient.getInstace().getService().getQuangCao().enqueue(new Callback<ArrayList<Banner>>() {
-//            @Override
-//            public void onResponse(Call<ArrayList<Banner>> call, retrofit2.Response<ArrayList<Banner>> response) {
-//                if (response.isSuccessful()) {
-//                    myDot.removeAllViews();
-//                    adapter = new ViewPagerAdapter(response.body(), MainActivity.this);
-//                    viewPager.setAdapter(adapter);
-//                    for (int i = 0; i < response.body().size(); ++i) {
-//                        TextView tv = new TextView(MainActivity.this);
-//                        if (i == 0) tv.setBackgroundResource(R.drawable.active_dot);
-//                        else tv.setBackgroundResource(R.drawable.dot);
-//                        tv.setLayoutParams(params);
-//                        params.setMargins(20, 20, 20, 20);
-//                        dot.add(tv);
-//                        myDot.addView(dot.get(i));
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ArrayList<Banner>> call, Throwable t) {
-//                Toast.makeText(MainActivity.this, "Không có kết nối", Toast.LENGTH_LONG).show();
-//            }
-//        });
     }
 
     @Override
     protected void onResume() {
-        // if (countDownTimer!=null) countDownTimer.start();
+        //
         if (txt_count != null) txt_count.setText(String.valueOf(soluong_giohang));
-//        ThongTinNguoiDung tt=ShrPreferences.getInstance(MainActivity.this).getInfo();
-//        if (tt != null) {
-//            String oldImage = danh_sach_loai_san_pham.get(0).getHinhAnh();
-//            String oldName = danh_sach_loai_san_pham.get(0).getTenSP();
-//            String currentImage = "http://minhlc.000webhostapp.com/" + tt.getImage();//image if has change
-//            if (!oldImage.equals(currentImage) || !oldName.equals(tt.getFullName())) {
-//                danh_sach_loai_san_pham.set(0, new LoaiSP(0, tt.getFullName(), currentImage));
-//                menu_adapter.notifyDataSetChanged();
-//            }
-//        }
         super.onResume();
     }
 
@@ -429,7 +400,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        if (mCompositeDisposable != null) mCompositeDisposable.dispose();
+        super.onDestroy();
+    }
+
+    @Override
     protected void onRestart() {
+        if (countDownTimer != null) countDownTimer.start();
         //index 0 is user name
         ThongTinNguoiDung tt = ShrPreferences.getInstance(MainActivity.this).getInfo();
         if (danh_sach_loai_san_pham.size() > 0) {
@@ -471,7 +449,7 @@ public class MainActivity extends AppCompatActivity {
                 .subscribe(new SingleObserver<ArrayList<LoaiSP>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-
+                        mCompositeDisposable.add(d);
                     }
 
                     @Override
@@ -504,41 +482,7 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
-//        RetrofitClient.getInstace().getService().getLoaiSanPham().enqueue(new Callback<ArrayList<LoaiSP>>() {
-//            @Override
-//            public void onResponse(Call<ArrayList<LoaiSP>> call, retrofit2.Response<ArrayList<LoaiSP>> response) {
-//                if (response.isSuccessful()) {
-//                    if (danh_sach_loai_san_pham.size() > 0) danh_sach_loai_san_pham.clear();
-//                    ThongTinNguoiDung tt = ShrPreferences.getInstance(MainActivity.this).getInfo();
-//                    if (tt != null) {
-//                        String urlProfile = "http://minhlc.000webhostapp.com/" + tt.getImage();
-//                        danh_sach_loai_san_pham.add(new LoaiSP(0, tt.getFullName(), urlProfile));
-//                        isLogin = true;
-//                    } else {
-//                        String urlLogin = "https://employeebenefits.com/images/login_icon.png";
-//                        danh_sach_loai_san_pham.add(new LoaiSP(0, "Đăng nhập", urlLogin));
-//                    }
-//                    String urlTrangChu = "http://www.apsaigonpetro.com/assets/images/home.png";
-//                    danh_sach_loai_san_pham.add(new LoaiSP(1, "Trang Chủ", urlTrangChu));
-//
-//                    for (int i = 0; i < response.body().size(); ++i) {
-//                        danh_sach_loai_san_pham.add(response.body().get(i));
-//                    }
-//                    String urlLienHe = "https://images.vexels.com/media/users/3/134904/isolated/preview/55500571b8176366dd4298b925235cb2-3d-contact-support-icon-by-vexels.png";
-//                    String urlThongTin = "http://www.cooperacion2005.es/wp-content/uploads/2015/09/11949858491812712425information_sign_mo_01.svg_.hi_.png";
-//                    String urlKiemTra = "https://eventis-sauerland.de/wp-content/uploads/2017/05/icon-803718_640.png";
-//                    danh_sach_loai_san_pham.add(new LoaiSP(danh_sach_loai_san_pham.size(), "Kiểm tra", urlKiemTra));
-//                    danh_sach_loai_san_pham.add(new LoaiSP(danh_sach_loai_san_pham.size(), "Liên hệ", urlLienHe));
-//                    danh_sach_loai_san_pham.add(new LoaiSP(danh_sach_loai_san_pham.size(), "Thông tin", urlThongTin));
-//                    menu_adapter.notifyDataSetChanged();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ArrayList<LoaiSP>> call, Throwable t) {
-//                Toast.makeText(MainActivity.this, "Không có kết nối", Toast.LENGTH_LONG).show();
-//            }
-//        });
+
     }
 
     public void getSanPhamMoiNhat() {
@@ -550,7 +494,7 @@ public class MainActivity extends AppCompatActivity {
                 .subscribe(new SingleObserver<ArrayList<ThongTinSanPham>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-
+                        mCompositeDisposable.add(d);
                     }
 
                     @Override
@@ -564,17 +508,5 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "Không có kết nối", Toast.LENGTH_LONG).show();
                     }
                 });
-//        RetrofitClient.getInstace().getService().getSanPhamMoiNhat().enqueue(new Callback<ArrayList<ThongTinSanPham>>() {
-//            @Override
-//            public void onResponse(Call<ArrayList<ThongTinSanPham>> call, retrofit2.Response<ArrayList<ThongTinSanPham>> response) {
-//                sanPhamAdapter=new SanPhamMoiNhatAdapter(MainActivity.this,response.body(),R.layout.san_pham_moi_nhat);
-//                recyclerView.setAdapter(sanPhamAdapter);
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ArrayList<ThongTinSanPham>> call, Throwable t) {
-//                Toast.makeText(MainActivity.this, "Không có kết nối", Toast.LENGTH_LONG).show();
-//            }
-//        });
     }
 }

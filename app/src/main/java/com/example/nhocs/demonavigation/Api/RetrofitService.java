@@ -80,11 +80,11 @@ public interface RetrofitService {
 
     @Multipart
     @POST("upload.php")
-    Single<String> uploadPhoto(@Part MultipartBody.Part photo);
+    Single<ResponseBody> uploadPhoto(@Part MultipartBody.Part photo);
 
     @FormUrlEncoded
     @POST("update_info.php")
-    Single<String> update_info(@Field("name") String name,
+    Single<ResponseBody> update_info(@Field("name") String name,
                                @Field("address") String address,
                                @Field("email") String email,
                                @Field("countryCode") int code,

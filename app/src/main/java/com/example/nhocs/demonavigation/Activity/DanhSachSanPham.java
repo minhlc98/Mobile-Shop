@@ -54,6 +54,7 @@ public class DanhSachSanPham extends AppCompatActivity {
     Button btnThuLai;
     SwipeRefreshLayout swipeRefreshLayout;
     boolean check_created;
+    Disposable disposable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,17 +116,16 @@ public class DanhSachSanPham extends AppCompatActivity {
     public void loadAll() {
         if (!check_created) {
             Bundle bundle = getIntent().getExtras();
-            ID = bundle.getInt("ID", 0);
-            String title = bundle.getString("title");
+            String title = "";
+            if (bundle != null) {
+                ID = bundle.getInt("ID", 0);
+                title = bundle.getString("title");
+            }
             Mapping();
             actionBar(title);
             Event();
             check_created = true;
         }
-        load_San_Pham();
-//        myThread thread = new myThread();
-//        isLoading = true;
-//        thread.start();
     }
 
     public void Event() {
@@ -140,9 +140,7 @@ public class DanhSachSanPham extends AppCompatActivity {
                 if (lvSanPham.getChildAt(0) != null) {
                     swipeRefreshLayout.setEnabled(lvSanPham.getFirstVisiblePosition() == 0 && lvSanPham.getChildAt(0).getTop() == 0);
                 }
-                if (firstVisibleItem + visibleItemCount == totalItemCount && totalItemCount != 0 && !isLoading && !limit) {
-//                    myThread thread = new myThread();
-//                    thread.start();
+                if (firstVisibleItem + visibleItemCount == totalItemCount && !isLoading && !limit) {
                     load_San_Pham();
                 }
             }
@@ -176,7 +174,6 @@ public class DanhSachSanPham extends AppCompatActivity {
         lvSanPham.setAdapter(adapter);
         LayoutInflater inflater = getLayoutInflater();
         footerView = inflater.inflate(R.layout.progress_load, null);
-        //  handler = new myHandler();
     }
 
     public void load_San_Pham() {
@@ -194,7 +191,7 @@ public class DanhSachSanPham extends AppCompatActivity {
                 .subscribe(new SingleObserver<ArrayList<ThongTinSanPham>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-
+                        disposable = d;
                     }
 
                     @Override
@@ -237,6 +234,12 @@ public class DanhSachSanPham extends AppCompatActivity {
     protected void onResume() {
         if (txt_count != null) txt_count.setText(String.valueOf(MainActivity.soluong_giohang));
         super.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (disposable != null) disposable.dispose();
+        super.onDestroy();
     }
 
     @Override
