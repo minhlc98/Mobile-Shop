@@ -12,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
     private static RetrofitClient mInstance;
-    private static final String BaseURL = "http://minhlc.000webhostapp.com/";
+    private static final String BaseURL = "http://camminh98.000webhostapp.com/";
     private RetrofitService service;
 
     public RetrofitClient() {
